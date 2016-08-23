@@ -1,0 +1,28 @@
+{
+  "name": "@studio/changes",
+  "version": "0.0.0",
+  "description": "Generate changes as part of npm version",
+  "bin": {
+    "changes": "changes.js"
+  },
+  "scripts": {
+    "test": "eslint .",
+    "version": "node changes.js"
+  },
+  "keywords": [
+    "changes",
+    "version",
+    "release"
+  ],
+  "author": "Maximilian Antoni <mail@maxantoni.de> (http://maxantoni.de/)",
+  "eslintConfig": {
+    "extends": "@studio"
+  },
+  "dependencies": {
+    "editor": "^1.0.0"
+  },
+  "devDependencies": {
+    "@studio/eslint-config": "^1.0.0",
+    "eslint": "^3.3.1"
+  }
+}
