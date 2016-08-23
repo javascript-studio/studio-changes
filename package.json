@@ -7,7 +7,9 @@
   },
   "scripts": {
     "test": "eslint .",
-    "version": "node changes.js"
+    "preversion": "npm test",
+    "version": "node changes.js",
+    "postversion": "git push --follow-tags && npm publish"
   },
   "keywords": [
     "changes",
