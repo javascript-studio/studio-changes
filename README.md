@@ -15,7 +15,9 @@ Add this to your `package.json`:
 ```json
 {
   "scripts": {
-    "version": "changes"
+    "preversion": "npm test",
+    "version": "changes",
+    "postversion": "git push --follow-tags && npm publish"
   }
 }
 ```
