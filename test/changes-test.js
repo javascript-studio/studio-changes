@@ -41,7 +41,7 @@ describe('changes', () => {
 
   it('generates new changes file', () => {
     missingChanges();
-    setLog('- Inception (That Dude)\n\n\n\n');
+    setLog('» Inception (That Dude)\n\n\n\n');
 
     changes.write();
 
@@ -54,7 +54,7 @@ describe('changes', () => {
 
   it('removes package author', () => {
     missingChanges();
-    setLog('- Inception (Studio)\n\n\n\n');
+    setLog('» Inception (Studio)\n\n\n\n');
 
     changes.write();
 
@@ -66,7 +66,7 @@ describe('changes', () => {
   it('add commit log to existing changes file', () => {
     const initial = '# Changes\n\n## 0.1.0\n\nSome foo.\n';
     setChanges(initial);
-    setLog('- Inception (Studio)\n\n\n\n');
+    setLog('» Inception (Studio)\n\n\n\n');
 
     const previous = changes.write();
 
@@ -80,7 +80,7 @@ describe('changes', () => {
 
   it('identifies previous commit with -beta suffix', () => {
     setChanges('# Changes\n\n## 0.1.0-beta\n\nSome foo.\n');
-    setLog('- Inception (Studio)\n\n\n\n');
+    setLog('» Inception (Studio)\n\n\n\n');
 
     changes.write();
 
@@ -89,8 +89,8 @@ describe('changes', () => {
 
   it('adds body indented on new line', () => {
     missingChanges();
-    setLog('- Inception (Studio)\n\nFoo Bar Doo\n\n- Other (Dude)\n\n\n\n'
-      + '- Third (Person)\n\nDoes\nstuff\n\n');
+    setLog('» Inception (Studio)\n\nFoo Bar Doo\n\n» Other (Dude)\n\n\n\n'
+      + '» Third (Person)\n\nDoes\nstuff\n\n');
 
     changes.write();
 
@@ -100,6 +100,18 @@ describe('changes', () => {
       + '- Inception\n\n  Foo Bar Doo\n\n'
       + '- Other (Dude)\n'
       + '- Third (Person)\n\n  Does\n  stuff\n\n');
+  });
+
+  it('properly indents lists', () => {
+    missingChanges();
+    setLog('» Inception (Studio)\n\n- Foo\n- Bar\n- Doo\n\n');
+
+    changes.write();
+
+    sinon.assert.calledOnce(fs.writeFileSync);
+    sinon.assert.calledWith(fs.writeFileSync, 'CHANGES.md',
+      '# Changes\n\n## 1.0.0\n\n'
+      + '- Inception\n\n  - Foo\n  - Bar\n  - Doo\n\n');
   });
 
   it('fails if changes file has not the right format', () => {
