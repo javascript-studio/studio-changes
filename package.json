@@ -18,7 +18,10 @@
   ],
   "author": "Maximilian Antoni <mail@maxantoni.de> (http://maxantoni.de/)",
   "eslintConfig": {
-    "extends": "@studio"
+    "extends": "@studio",
+    "rules": {
+      "no-sync": 0
+    }
   },
   "dependencies": {
     "editor": "^1.0.0"
