@@ -5,7 +5,7 @@ Generate changes as part of `npm version [patch|minor|major]`.
 ## Install
 
 ```bash
-$ npm install @studio/changes -D
+$ npm install @studio/changes --save-dev
 ```
 
 ## Configure
