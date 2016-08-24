@@ -22,14 +22,13 @@ try {
 }
 
 // Generate changes for this release
+const version_match = previous.match(/^## ([0-9a-z\.\-]+)$/m);
+const log_range = version_match ? `v${version_match[1]}..HEAD` : '';
 let changes;
 try {
-  const opts = { encoding: 'utf8' };
-  if (previous === CHANGES_HEADING) {
-    changes = execSync('git log --format="- %s (%an)"', opts);
-  } else {
-    changes = execSync(`git log v${version}..HEAD --format="- %s (%an)"`, opts);
-  }
+  changes = execSync(`git log ${log_range} --format="- %s (%an)"`, {
+    encoding: 'utf8'
+  });
 } catch (e) {
   process.exit(1);
 }
