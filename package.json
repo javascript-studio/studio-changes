@@ -3,12 +3,16 @@
   "version": "1.0.1",
   "description": "Generate changes as part of npm version",
   "bin": {
-    "changes": "changes.js"
+    "changes": "bin/cmd.js"
   },
+  "main": "lib/changes.js",
   "scripts": {
-    "test": "eslint .",
+    "lint": "eslint .",
+    "test": "mocha",
+    "watch": "mocha --watch",
+    "posttest": "npm run lint",
     "preversion": "npm test",
-    "version": "node changes.js",
+    "version": "bin/cmd.js",
     "postversion": "git push --follow-tags && npm publish"
   },
   "keywords": [
@@ -28,6 +32,8 @@
   },
   "devDependencies": {
     "@studio/eslint-config": "^1.0.0",
-    "eslint": "^3.3.1"
+    "eslint": "^3.3.1",
+    "mocha": "^3.0.2",
+    "sinon": "^1.17.5"
   }
 }
