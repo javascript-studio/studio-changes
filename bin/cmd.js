@@ -1,4 +1,9 @@
 #!/usr/bin/env node
+/*
+ * Copyright (c) Maximilian Antoni <max@javascript.studio>
+ *
+ * @license MIT
+ */
 'use strict';
 
 const editor = require('editor');
