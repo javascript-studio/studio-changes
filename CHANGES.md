@@ -1,5 +1,11 @@
 # Changes
 
+## 1.0.3
+
+📣 This release open sources `@studio/changes`. It adds the MIT license and
+some meta data to the package. The documentation was enriched with an animated
+GIF, but no functional changes have been made. Happy releasing!
+
 ## 1.0.2
 
 Adding unit tests revealed several bugs, like actually reading the
