@@ -1,6 +1,17 @@
-# JavaScript Studio Changes
+# Changes
 
 Generate changes as part of `npm version [patch|minor|major]`.
+
+Nice and easy module releases. Make the release tool and process a part of
+your module.
+
+## Usage
+
+- Use the [npm version feature][1] to create a release
+- Your editor will open with a generated `CHANGES.md` file
+- When you're done writing the release notes, save and close the editor to
+  continue
+- To abort the release, remove the line with the new version number
 
 ## Install
 
@@ -18,15 +29,21 @@ Add this to your `package.json`:
     "preversion": "npm test",
     "version": "changes",
     "postversion": "git push --follow-tags && npm publish"
+  },
+  "devDependencies": {
+    "@studio/changes": "^1.0.0"
   }
 }
 ```
 
-## Usage
+Configure your preferred editor with the `$EDITOR` environment variable.
 
-- Use the [npm version feature][1] as usual
-- You editor will open with a generated `CHANGES.md` file
-- Save and close the editor to continue
-- Remove the line with the next version number to abort
+![](https://javascript.studio/assets/changes-1.0.gif)
+
+## License
+
+MIT
+
+<div align="center">Made with ❤️ on 🌍</div>
 
 [1]: https://docs.npmjs.com/cli/version
