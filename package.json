@@ -1,6 +1,6 @@
 {
   "name": "@studio/changes",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Generate a changelog as part of the npm version command",
   "bin": {
     "changes": "bin/cmd.js"

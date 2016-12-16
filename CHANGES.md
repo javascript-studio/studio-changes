@@ -1,5 +1,9 @@
 # Changes
 
+## 1.0.4
+
+Improve project description and usage notes.
+
 ## 1.0.3
 
 📣 This release open sources `@studio/changes`. It adds the MIT license and
