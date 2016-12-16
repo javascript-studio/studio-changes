@@ -1,17 +1,14 @@
 # Changes
 
-Generate changes as part of `npm version [patch|minor|major]`.
-
-Nice and easy module releases. Make the release tool and process a part of
-your module.
+Generate a changelog as part of the [npm version command][1].
 
 ## Usage
 
-- Use the [npm version feature][1] to create a release
+- Use `npm version [patch|minor|major]` to create a release
 - Your editor will open with a generated `CHANGES.md` file
 - When you're done writing the release notes, save and close the editor to
   continue
-- To abort the release, remove the line with the new version number
+- To abort the release, remove the heading with the new version number
 
 ## Install
 
