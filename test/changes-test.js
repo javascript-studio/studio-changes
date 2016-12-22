@@ -153,4 +153,16 @@ describe('changes', () => {
     assert.equal(previous, initial);
   });
 
+  it('fails if version is already in changes file with CRLF', () => {
+    setChanges('# Changes\r\n\r\n## 1.0.0\r\n\r\nFoo');
+
+    changes.write();
+
+    sinon.assert.calledOnce(console.error);
+    sinon.assert.calledWith(console.error,
+      'Version 1.0.0 is already in CHANGES.md');
+    sinon.assert.calledOnce(process.exit);
+    sinon.assert.calledWith(process.exit, 1);
+  });
+
 });
