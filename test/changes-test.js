@@ -137,4 +137,20 @@ describe('changes', () => {
     sinon.assert.calledWith(process.exit, 1);
   });
 
+  it('works if changes file was checked out with CRLF', () => {
+    const initial = '# Changes\r\n\r\n## 0.0.1\r\n\r\n- Inception\r\n';
+    setChanges(initial);
+    setLog('» JavaScript (Studio)\n\nWhat else?\n\n\n\n');
+
+    const previous = changes.write();
+
+    sinon.assert.calledOnce(fs.writeFileSync);
+    sinon.assert.calledWith(fs.writeFileSync, 'CHANGES.md', '# Changes\r\n\r\n'
+      + '## 1.0.0\r\n\r\n- JavaScript\r\n\r\n  What else?\r\n\r\n'
+      + '## 0.0.1\r\n\r\n- Inception\r\n');
+    sinon.assert.calledOnce($.execSync);
+    sinon.assert.calledWithMatch($.execSync, 'git log v0.0.1..HEAD');
+    assert.equal(previous, initial);
+  });
+
 });
