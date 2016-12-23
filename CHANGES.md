@@ -1,5 +1,13 @@
 # Changes
 
+## 1.0.5
+
+🐛 When git is configured to convert `LF` to `CRLF` on Windows, the header
+detection didn't work. [This patch fixes the header detection][pr2] and uses
+the line terminator found in the header when generating newlines.
+
+[pr2]: https://github.com/javascript-studio/studio-changes/pull/2
+
 ## 1.0.4
 
 Improve project description and usage notes.
