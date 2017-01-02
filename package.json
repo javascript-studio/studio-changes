@@ -30,7 +30,8 @@
     }
   },
   "dependencies": {
-    "editor": "^1.0.0"
+    "editor": "^1.0.0",
+    "minimist": "^1.2.0"
   },
   "devDependencies": {
     "@studio/eslint-config": "^1.0.0",
