@@ -60,7 +60,7 @@ describe('changes', () => {
 
   it('generates new changes file', () => {
     missingChanges();
-    setLog('» Inception (That Dude)\n\n\n\n');
+    setLog('» Inception (That Dude)\n\n\n');
 
     changes.write();
 
@@ -73,7 +73,7 @@ describe('changes', () => {
 
   it('removes package author', () => {
     missingChanges();
-    setLog('» Inception (Studio)\n\n\n\n');
+    setLog('» Inception (Studio)\n\n\n');
 
     changes.write();
 
@@ -85,7 +85,7 @@ describe('changes', () => {
   it('add commit log to existing changes file', () => {
     const initial = '# Changes\n\n## 0.1.0\n\nSome foo.\n';
     setChanges(initial);
-    setLog('» Inception (Studio)\n\n\n\n');
+    setLog('» Inception (Studio)\n\n\n');
 
     const previous = changes.write();
 
@@ -99,7 +99,7 @@ describe('changes', () => {
 
   it('identifies previous commit with -beta suffix', () => {
     setChanges('# Changes\n\n## 0.1.0-beta\n\nSome foo.\n');
-    setLog('» Inception (Studio)\n\n\n\n');
+    setLog('» Inception (Studio)\n\n\n');
 
     changes.write();
 
@@ -108,7 +108,7 @@ describe('changes', () => {
 
   it('adds body indented on new line', () => {
     missingChanges();
-    setLog('» Inception (Studio)\n\nFoo Bar Doo\n\n» Other (Dude)\n\n\n\n'
+    setLog('» Inception (Studio)\n\nFoo Bar Doo\n\n» Other (Dude)\n\n\n'
       + '» Third (Person)\n\nDoes\nstuff\n\n');
 
     changes.write();
@@ -116,9 +116,9 @@ describe('changes', () => {
     sinon.assert.calledOnce(fs.writeFileSync);
     sinon.assert.calledWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n'
-      + '- Inception\n\n  Foo Bar Doo\n\n'
+      + '- Inception\n\n    Foo Bar Doo\n\n'
       + '- Other (Dude)\n'
-      + '- Third (Person)\n\n  Does\n  stuff\n\n');
+      + '- Third (Person)\n\n    Does\n    stuff\n\n');
   });
 
   it('properly indents lists', () => {
@@ -130,7 +130,7 @@ describe('changes', () => {
     sinon.assert.calledOnce(fs.writeFileSync);
     sinon.assert.calledWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n'
-      + '- Inception\n\n  - Foo\n  - Bar\n  - Doo\n\n');
+      + '- Inception\n\n    - Foo\n    - Bar\n    - Doo\n\n');
   });
 
   it('fails if changes file has not the right format', () => {
@@ -158,7 +158,7 @@ describe('changes', () => {
 
   it('shows outstanding changes if version is already in changes file', () => {
     setChanges('# Changes\n\n## 1.0.0\n\nFoo');
-    setLog('» Up next (Studio)\n\n\n\n');
+    setLog('» Up next (Studio)\n\n\n');
 
     changes.write();
 
@@ -181,13 +181,13 @@ describe('changes', () => {
   it('works if changes file was checked out with CRLF', () => {
     const initial = '# Changes\r\n\r\n## 0.0.1\r\n\r\n- Inception\r\n';
     setChanges(initial);
-    setLog('» JavaScript (Studio)\n\nWhat else?\n\n\n\n');
+    setLog('» JavaScript (Studio)\n\nWhat else?\n\n\n');
 
     const previous = changes.write();
 
     sinon.assert.calledOnce(fs.writeFileSync);
     sinon.assert.calledWith(fs.writeFileSync, 'CHANGES.md', '# Changes\r\n\r\n'
-      + '## 1.0.0\r\n\r\n- JavaScript\r\n\r\n  What else?\r\n\r\n'
+      + '## 1.0.0\r\n\r\n- JavaScript\r\n\r\n    What else?\r\n\r\n'
       + '## 0.0.1\r\n\r\n- Inception\r\n');
     sinon.assert.calledOnce($.execSync);
     sinon.assert.calledWithMatch($.execSync, 'git log v0.0.1..HEAD');
