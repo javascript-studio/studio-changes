@@ -24,7 +24,7 @@ Options are ...
 `;
 /* eslint-enable */
 
-if (argv.h || argv.help) {
+if (argv.help) {
   console.log(HELP_TEXT);
   process.exit();
 }
