@@ -39,6 +39,25 @@ describe('changes', () => {
     $.execSync.returns(log);
   }
 
+  it('defaults changes file to CHANGES.md', () => {
+    assert.equal(changes.getFile(), 'CHANGES.md');
+  });
+
+  it('can set changes file to custom name', () => {
+    changes.setFile('foo.txt');
+
+    assert.equal(changes.getFile(), 'foo.txt');
+
+    missingChanges();
+    setLog('foo');
+
+    changes.write();
+
+    sinon.assert.calledWith(fs.writeFileSync, 'foo.txt');
+
+    changes.setFile('CHANGES.md'); // reset state
+  });
+
   it('generates new changes file', () => {
     missingChanges();
     setLog('» Inception (That Dude)\n\n\n\n');
