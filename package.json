@@ -22,6 +22,9 @@
     "productivity"
   ],
   "author": "Maximilian Antoni <max@javascript.studio>",
+  "contributors": [
+    "Blade Barringer <blade@crookedneighbor.com>"
+  ],
   "homepage": "https://github.com/javascript-studio/studio-changes",
   "eslintConfig": {
     "extends": "@studio",
