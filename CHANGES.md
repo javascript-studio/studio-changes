@@ -1,5 +1,27 @@
 # Changes
 
+## 1.1.0
+
+🍏 Blade Barringer [added two command line options][pr6]:
+
+  - `--file` or `-f` allows to configure the changelog file name. It defaults
+    to `CHANGES.md` as before.
+  - `--help` or `-h` displays a help message.
+
+🍏 If the current version number is found in the changelog, the changes command
+exits with code 1. In addition, it will now also print any outstanding commits.
+With this you can preview the changes for the next release:
+
+```bash
+$ node_modules/.bin/changes
+```
+
+🐛 The message body is now indented with four spaces instead of two to make the
+paragraph part of the list item. The body is now also separated from the next
+list item by a blank line.
+
+[pr6]: https://github.com/javascript-studio/studio-changes/pull/6
+
 ## 1.0.5
 
 🐛 When git is configured to convert `LF` to `CRLF` on Windows, the header
