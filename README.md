@@ -33,6 +33,12 @@ Add this to your `package.json`:
 }
 ```
 
+## Options
+
+- `--help`, `-h`: Display a help message.
+- `--file`, `-f`: Specify the name of the changelog file. Defaults to
+  `CHANGES.md`.
+
 Configure your preferred editor with the `$EDITOR` environment variable.
 
 ![](https://javascript.studio/assets/changes-1.0.gif)
