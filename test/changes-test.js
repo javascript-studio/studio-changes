@@ -146,14 +146,36 @@ describe('changes', () => {
 
   it('fails if version is already in changes file', () => {
     setChanges('# Changes\n\n## 1.0.0\n\nFoo');
+    setLog('foo');
 
     changes.write();
 
-    sinon.assert.calledOnce(console.error);
     sinon.assert.calledWith(console.error,
-      'Version 1.0.0 is already in CHANGES.md');
+      'Version 1.0.0 is already in CHANGES.md\n');
     sinon.assert.calledOnce(process.exit);
     sinon.assert.calledWith(process.exit, 1);
+  });
+
+  it('shows outstanding changes if version is already in changes file', () => {
+    setChanges('# Changes\n\n## 1.0.0\n\nFoo');
+    setLog('» Up next (Studio)\n\n\n\n');
+
+    changes.write();
+
+    sinon.assert.calledWith(console.error, '# Changes for next release:\n');
+    sinon.assert.calledWith(console.error, '- Up next\n');
+  });
+
+  it('does not show outstanding changes if no new commits where found', () => {
+    setChanges('# Changes\n\n## 1.0.0\n\nFoo');
+    setLog('');
+
+    changes.write();
+
+    sinon.assert.calledWith(console.error,
+      'Version 1.0.0 is already in CHANGES.md\n');
+    sinon.assert.neverCalledWith(console.error,
+      '# Changes for next release:\n');
   });
 
   it('works if changes file was checked out with CRLF', () => {
@@ -174,12 +196,12 @@ describe('changes', () => {
 
   it('fails if version is already in changes file with CRLF', () => {
     setChanges('# Changes\r\n\r\n## 1.0.0\r\n\r\nFoo');
+    setLog('foo');
 
     changes.write();
 
-    sinon.assert.calledOnce(console.error);
     sinon.assert.calledWith(console.error,
-      'Version 1.0.0 is already in CHANGES.md');
+      'Version 1.0.0 is already in CHANGES.md\n');
     sinon.assert.calledOnce(process.exit);
     sinon.assert.calledWith(process.exit, 1);
   });

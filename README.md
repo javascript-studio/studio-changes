@@ -41,6 +41,16 @@ Add this to your `package.json`:
 
 Configure your preferred editor with the `$EDITOR` environment variable.
 
+## Preview changes for next release
+
+If the current version in your `package.json` is already in the changelog, the
+`changes` command aborts and shows the unreleased commits. Preview the release
+notes for the next release like this:
+
+```bash
+$ node_modules/.bin/changes
+```
+
 ![](https://javascript.studio/assets/changes-1.0.gif)
 
 ## License
