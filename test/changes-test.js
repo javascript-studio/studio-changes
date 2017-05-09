@@ -116,9 +116,9 @@ describe('changes', () => {
     sinon.assert.calledOnce(fs.writeFileSync);
     sinon.assert.calledWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n'
-      + '- Inception\n\n    Foo Bar Doo\n\n'
+      + '- Inception\n\n    > Foo Bar Doo\n\n'
       + '- Other (Dude)\n'
-      + '- Third (Person)\n\n    Does\n    stuff\n\n');
+      + '- Third (Person)\n\n    > Does\n    > stuff\n\n');
   });
 
   it('properly indents lists', () => {
@@ -130,7 +130,7 @@ describe('changes', () => {
     sinon.assert.calledOnce(fs.writeFileSync);
     sinon.assert.calledWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n'
-      + '- Inception\n\n    - Foo\n    - Bar\n    - Doo\n\n');
+      + '- Inception\n\n    > - Foo\n    > - Bar\n    > - Doo\n\n');
   });
 
   it('fails if changes file has not the right format', () => {
@@ -187,7 +187,7 @@ describe('changes', () => {
 
     sinon.assert.calledOnce(fs.writeFileSync);
     sinon.assert.calledWith(fs.writeFileSync, 'CHANGES.md', '# Changes\r\n\r\n'
-      + '## 1.0.0\r\n\r\n- JavaScript\r\n\r\n    What else?\r\n\r\n'
+      + '## 1.0.0\r\n\r\n- JavaScript\r\n\r\n    > What else?\r\n\r\n'
       + '## 0.0.1\r\n\r\n- Inception\r\n');
     sinon.assert.calledOnce($.execSync);
     sinon.assert.calledWithMatch($.execSync, 'git log v0.0.1..HEAD');
