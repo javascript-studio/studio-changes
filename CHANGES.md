@@ -1,5 +1,12 @@
 # Changes
 
+## 1.2.0
+
+- 🍏 Quote commit body (#10)
+
+    > Render commit bodies as markdown quotes to better group long commit
+    > messages.
+
 ## 1.1.0
 
 🍏 Blade Barringer [added two command line options][pr6]:
