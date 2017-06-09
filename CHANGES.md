@@ -1,5 +1,20 @@
 # Changes
 
+## 1.3.0
+
+Now you can generate the npm version lifecycle scripts with `changes` itself:
+
+```bash
+$ node_modules/.bin/changes --init
+```
+
+Indentations are preserved, existing scripts will not be touched, and if a
+`version` script already exists, no changes are made.
+
+- 🍏 Add `--init` to generate lifecycle scripts
+- 🍏 Allow to combine `--init` and `--file`
+- ✨ Add `package-lock.json`
+
 ## 1.2.0
 
 - 🍏 Quote commit body (#10)
