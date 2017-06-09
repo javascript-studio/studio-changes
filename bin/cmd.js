@@ -15,17 +15,16 @@ const argv = require('minimist')(process.argv.slice(2), {
     help: 'h'
   }
 });
-/* eslint-disable max-len */
-const HELP_TEXT = `usage: changes [--file] [--help]
+
+if (argv.help) {
+  /* eslint-disable max-len */
+  console.log(`usage: changes [--file] [--help]
 
 Options are ...
   -f, --file [FILENAME] Specify the name of the changelog file. Defaults to CHANGES.md.
   -h, --help            Display this help message.
-`;
-/* eslint-enable */
-
-if (argv.help) {
-  console.log(HELP_TEXT);
+`);
+  /* eslint-enable */
   process.exit();
 }
 
