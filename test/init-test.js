@@ -121,4 +121,21 @@ describe('init', () => {
     sinon.assert.notCalled(fs.writeFileSync);
   });
 
+  it('adds --file options if passed', () => {
+    fs.readFileSync.withArgs('package.json').returns('{}');
+
+    const result = init({ file: 'changelog.md' });
+
+    assert.equal(result, true);
+    sinon.assert.calledOnce(fs.writeFileSync);
+    sinon.assert.calledWith(fs.writeFileSync, 'package.json', `{
+  "scripts": {
+    "preversion": "${SCRIPT_PREVERSION}",
+    "version": "${SCRIPT_VERSION} --file changelog.md",
+    "postversion": "${SCRIPT_POSTVERSION}"
+  }
+}
+`);
+  });
+
 });
