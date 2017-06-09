@@ -33,6 +33,7 @@
     }
   },
   "dependencies": {
+    "detect-indent": "^5.0.0",
     "editor": "^1.0.0",
     "minimist": "^1.2.0"
   },

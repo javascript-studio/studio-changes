@@ -33,11 +33,21 @@ Add this to your `package.json`:
 }
 ```
 
+The scripts can also be added, if they do not exist yet:
+
+```bash
+$ node_modules/.bin/changes --init
+```
+
+If the "version" script already exists, this has no effect. Existing file
+indentation style will be preserved.
+
 ## Options
 
 - `--help`, `-h`: Display a help message.
 - `--file`, `-f`: Specify the name of the changelog file. Defaults to
   `CHANGES.md`.
+- `--init`: Add version lifecycle scripts to `package.json`.
 
 Configure your preferred editor with the `$EDITOR` environment variable.
 

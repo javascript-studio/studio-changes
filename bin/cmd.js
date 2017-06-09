@@ -18,14 +18,23 @@ const argv = require('minimist')(process.argv.slice(2), {
 
 if (argv.help) {
   /* eslint-disable max-len */
-  console.log(`usage: changes [--file] [--help]
+  console.log(`Usage: changes [options]
 
-Options are ...
+Options:
+      --init            Add version lifecycle scripts to package.json.
   -f, --file [FILENAME] Specify the name of the changelog file. Defaults to CHANGES.md.
   -h, --help            Display this help message.
 `);
   /* eslint-enable */
   process.exit();
+}
+
+if (argv.init) {
+  if (require('../lib/init')()) {
+    process.exit();
+  }
+  console.error('"version" script already exists');
+  process.exit(1);
 }
 
 let file = argv.file;
