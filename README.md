@@ -1,6 +1,6 @@
-# Changes
+# Studio Changes
 
-Generate a changelog as part of the [npm version command][1].
+📦 Generate a changelog as part of the [npm version command][1].
 
 ## Usage
 
