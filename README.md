@@ -33,10 +33,16 @@ Add this to your `package.json`:
 }
 ```
 
-The scripts can also be added, if they do not exist yet:
+The scripts can also be added with `changes --init`, if they do not exist yet:
 
 ```bash
 $ node_modules/.bin/changes --init
+```
+
+Or with [npx][2]:
+
+```bash
+$ npx changes --init
 ```
 
 If the "version" script already exists, this has no effect. Existing file
@@ -61,6 +67,12 @@ notes for the next release like this:
 $ node_modules/.bin/changes
 ```
 
+Or with `npx`:
+
+```bash
+$ npx changes
+```
+
 ![](https://javascript.studio/assets/changes-1.0.gif)
 
 ## License
@@ -70,3 +82,4 @@ MIT
 <div align="center">Made with ❤️ on 🌍</div>
 
 [1]: https://docs.npmjs.com/cli/version
+[2]: https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b
