@@ -47,7 +47,7 @@ if (file) {
   file = changes.getFile();
 }
 
-let tag = argv.tag;
+const tag = argv.tag;
 
 if (tag) {
   changes.setTag(tag);
