@@ -40,36 +40,30 @@ describe('changes', () => {
     $.execSync.returns(log);
   }
 
-  it('defaults changes file to CHANGES.md', () => {
-    assert.equal(changes.getFile(), 'CHANGES.md');
-  });
-
-  it('can set changes file to custom name', () => {
-    changes.setFile('foo.txt');
-
-    assert.equal(changes.getFile(), 'foo.txt');
-
-    missingChanges();
-    setLog('foo');
-
-    changes.write();
-
-    sinon.assert.calledWith(fs.writeFileSync, 'foo.txt');
-
-    changes.setFile('CHANGES.md'); // reset state
-  });
-
-  it('generates new changes file', () => {
+  it('generates new changes file to default location', () => {
     missingChanges();
     setLog('» Inception (That Dude)\n\n\n');
 
-    changes.write();
+    const state = changes.write();
 
     sinon.assert.calledOnce(fs.writeFileSync);
     sinon.assert.calledWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n- Inception (That Dude)\n');
     sinon.assert.calledOnce($.execSync);
     sinon.assert.calledWithMatch($.execSync, 'git log  --format=');
+    assert.equal(state.changes_file, 'CHANGES.md');
+  });
+
+  it('generates new changes file to custom location', () => {
+    missingChanges();
+    setLog('» Inception (That Dude)\n\n\n');
+
+    const state = changes.write({ changes_file: 'foo.txt' });
+
+    sinon.assert.calledOnce(fs.writeFileSync);
+    sinon.assert.calledWith(fs.writeFileSync, 'foo.txt',
+      '# Changes\n\n## 1.0.0\n\n- Inception (That Dude)\n');
+    assert.equal(state.changes_file, 'foo.txt');
   });
 
   it('removes package author', () => {
@@ -88,14 +82,14 @@ describe('changes', () => {
     setChanges(initial);
     setLog('» Inception (Studio)\n\n\n');
 
-    const previous = changes.write();
+    const state = changes.write();
 
     sinon.assert.calledOnce(fs.writeFileSync);
     sinon.assert.calledWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n- Inception\n\n## 0.1.0\n\nSome foo.\n');
     sinon.assert.calledOnce($.execSync);
     sinon.assert.calledWithMatch($.execSync, 'git log v0.1.0..HEAD');
-    assert.equal(previous, initial);
+    assert.equal(state.previous, initial);
   });
 
   it('identifies previous commit with -beta suffix', () => {
@@ -184,7 +178,7 @@ describe('changes', () => {
     setChanges(initial);
     setLog('» JavaScript (Studio)\n\nWhat else?\n\n\n');
 
-    const previous = changes.write();
+    const state = changes.write();
 
     sinon.assert.calledOnce(fs.writeFileSync);
     sinon.assert.calledWith(fs.writeFileSync, 'CHANGES.md', '# Changes\r\n\r\n'
@@ -192,7 +186,7 @@ describe('changes', () => {
       + '## 0.0.1\r\n\r\n- Inception\r\n');
     sinon.assert.calledOnce($.execSync);
     sinon.assert.calledWithMatch($.execSync, 'git log v0.0.1..HEAD');
-    assert.equal(previous, initial);
+    assert.equal(state.previous, initial);
   });
 
   it('fails if version is already in changes file with CRLF', () => {
@@ -212,7 +206,7 @@ describe('changes', () => {
     setChanges(initial);
     setLog('» Inception (Studio)\n\n\n');
 
-    const previous = changes.write({
+    const state = changes.write({
       tag_format: '${name}@${version}'
     });
 
@@ -222,7 +216,7 @@ describe('changes', () => {
     sinon.assert.calledOnce($.execSync);
     sinon.assert.calledWithMatch($.execSync,
       'git log @studio/changes@0.1.0..HEAD');
-    assert.equal(previous, initial);
+    assert.equal(state.previous, initial);
   });
 
 });

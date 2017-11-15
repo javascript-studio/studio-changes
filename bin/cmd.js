@@ -39,30 +39,24 @@ if (argv.init) {
   process.exit(1);
 }
 
-let file = argv.file;
-
-if (file) {
-  changes.setFile(file);
-} else {
-  file = changes.getFile();
-}
-
-const tag = argv.tag;
 const options = {};
-if (tag) {
-  options.tag_format = tag;
+if (argv.file) {
+  options.changes_file = argv.file;
+}
+if (argv.tag) {
+  options.tag_format = argv.tag;
 }
 
 // Write the commit history to the changes file
-const previous = changes.write(options);
+const state = changes.write(options);
 
 // Let the user edit the changes
-editor(file, (code) => {
+editor(state.changes_file, (code) => {
   if (code === 0) {
     // Add the changes file to git
-    changes.add(previous);
+    changes.add(state);
   } else {
     // Roll back
-    changes.abort(previous);
+    changes.abort(state);
   }
 });
