@@ -48,13 +48,13 @@ if (file) {
 }
 
 const tag = argv.tag;
-
+const options = {};
 if (tag) {
-  changes.setTag(tag);
+  options.tag_format = tag;
 }
 
 // Write the commit history to the changes file
-const previous = changes.write();
+const previous = changes.write(options);
 
 // Let the user edit the changes
 editor(file, (code) => {

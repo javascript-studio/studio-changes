@@ -212,9 +212,9 @@ describe('changes', () => {
     setChanges(initial);
     setLog('» Inception (Studio)\n\n\n');
 
-    changes.setTag('${name}@${version}');
-
-    const previous = changes.write();
+    const previous = changes.write({
+      tag_format: '${name}@${version}'
+    });
 
     sinon.assert.calledOnce(fs.writeFileSync);
     sinon.assert.calledWith(fs.writeFileSync, 'CHANGES.md',
@@ -223,8 +223,6 @@ describe('changes', () => {
     sinon.assert.calledWithMatch($.execSync,
       'git log @studio/changes@0.1.0..HEAD');
     assert.equal(previous, initial);
-
-    changes.setTag('v${version}'); // reset state
   });
 
 });
