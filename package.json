@@ -23,7 +23,8 @@
   ],
   "author": "Maximilian Antoni <max@javascript.studio>",
   "contributors": [
-    "Blade Barringer <blade@crookedneighbor.com>"
+    "Blade Barringer <blade@crookedneighbor.com>",
+    "Pat Cavit <github@patcavit.com>"
   ],
   "homepage": "https://github.com/javascript-studio/studio-changes",
   "eslintConfig": {
