@@ -1,5 +1,23 @@
 # Changes
 
+## 1.4.0
+
+Pat Cavit made `changes` [lerna][] compatible by allowing to specify a custom
+tag name format. Use it like this:
+
+```
+$ changes --tag '${name}@${version}'
+```
+
+- 🍏 Custom git tag format support (Pat Cavit)
+
+    > Supports the parsed version from `CHANGES.md` as `${version}` along w/
+    > any other string-compatible key in `package.json`.
+
+- 📚 Add `npx` invocation examples
+
+[lerna]: https://github.com/lerna/lerna
+
 ## 1.3.0
 
 Now you can generate the npm version lifecycle scripts with `changes` itself:
