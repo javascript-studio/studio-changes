@@ -12,6 +12,7 @@ const changes = require('..');
 const argv = require('minimist')(process.argv.slice(2), {
   alias: {
     file: 'f',
+    tag: 't',
     help: 'h'
   }
 });
@@ -23,6 +24,7 @@ if (argv.help) {
 Options:
       --init            Add version lifecycle scripts to package.json.
   -f, --file [FILENAME] Specify the name of the changelog file. Defaults to CHANGES.md.
+  -t, --tag [FORMAT]    Specify a custom git tag format to use. Defaults to "v<version>".
   -h, --help            Display this help message.
 `);
   /* eslint-enable */
@@ -43,6 +45,12 @@ if (file) {
   changes.setFile(file);
 } else {
   file = changes.getFile();
+}
+
+let tag = argv.tag;
+
+if (tag) {
+  changes.setTag(tag);
 }
 
 // Write the commit history to the changes file

@@ -18,6 +18,7 @@ describe('changes', () => {
     sandbox.stub(process, 'exit');
     sandbox.stub(console, 'error');
     fs.readFileSync.withArgs('package.json').returns(JSON.stringify({
+      name: '@studio/changes',
       version: '1.0.0',
       author: 'Studio <support@javascript.studio>'
     }));
@@ -204,6 +205,25 @@ describe('changes', () => {
       'Version 1.0.0 is already in CHANGES.md\n');
     sinon.assert.calledOnce(process.exit);
     sinon.assert.calledWith(process.exit, 1);
+  });
+
+  it('should support custom tag formats when updating a file', () => {
+    const initial = '# Changes\n\n## 0.1.0\n\nSome foo.\n';
+    setChanges(initial);
+    setLog('» Inception (Studio)\n\n\n');
+
+    changes.setTag('${name}@${version}');
+
+    const previous = changes.write();
+    
+    sinon.assert.calledOnce(fs.writeFileSync);
+    sinon.assert.calledWith(fs.writeFileSync, 'CHANGES.md',
+      '# Changes\n\n## 1.0.0\n\n- Inception\n\n## 0.1.0\n\nSome foo.\n');
+    sinon.assert.calledOnce($.execSync);
+    sinon.assert.calledWithMatch($.execSync, 'git log @studio/changes@0.1.0..HEAD');
+    assert.equal(previous, initial);
+
+    changes.setTag('v${version}'); // reset state
   });
 
 });
