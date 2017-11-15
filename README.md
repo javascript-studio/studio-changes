@@ -54,6 +54,8 @@ indentation style will be preserved.
 - `--file`, `-f`: Specify the name of the changelog file. Defaults to
   `CHANGES.md`.
 - `--init`: Add version lifecycle scripts to `package.json`.
+- `--tag`: Use a custom git tag, supports simple replacement of `package.json`
+  fields. Defaults to `v${version}`.
 
 Configure your preferred editor with the `$EDITOR` environment variable.
 

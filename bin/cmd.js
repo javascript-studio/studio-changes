@@ -24,7 +24,7 @@ if (argv.help) {
 Options:
       --init            Add version lifecycle scripts to package.json.
   -f, --file [FILENAME] Specify the name of the changelog file. Defaults to CHANGES.md.
-  -t, --tag [FORMAT]    Specify a custom git tag format to use. Defaults to "v<version>".
+  -t, --tag [FORMAT]    Specify a custom git tag format to use. Defaults to "v\${version}".
   -h, --help            Display this help message.
 `);
   /* eslint-enable */
