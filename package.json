@@ -39,10 +39,10 @@
     "minimist": "^1.2.0"
   },
   "devDependencies": {
-    "@studio/eslint-config": "^1.0.0",
-    "eslint": "^4.11.0",
-    "mocha": "^4.0.1",
-    "sinon": "^4.1.2"
+    "@studio/eslint-config": "^1.0.2",
+    "eslint": "^4.19.1",
+    "mocha": "^5.1.1",
+    "sinon": "^5.0.7"
   },
   "repository": {
     "type": "git",

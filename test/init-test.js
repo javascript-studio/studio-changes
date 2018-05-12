@@ -11,12 +11,10 @@ const SCRIPT_VERSION = 'changes';
 const SCRIPT_POSTVERSION = 'git push --follow-tags && npm publish';
 
 describe('init', () => {
-  let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
-    sandbox.stub(fs, 'readFileSync');
-    sandbox.stub(fs, 'writeFileSync');
+    sinon.stub(fs, 'readFileSync');
+    sinon.stub(fs, 'writeFileSync');
     fs.readFileSync.withArgs('package.json').returns(JSON.stringify({
       version: '1.0.0',
       author: 'Studio <support@javascript.studio>'
@@ -24,7 +22,7 @@ describe('init', () => {
   });
 
   afterEach(() => {
-    sandbox.restore();
+    sinon.restore();
   });
 
   it('adds entire scripts section with default indent', () => {

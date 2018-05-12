@@ -8,15 +8,13 @@ const sinon = require('sinon');
 const changes = require('..');
 
 describe('changes', () => {
-  let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
-    sandbox.stub(fs, 'readFileSync');
-    sandbox.stub(fs, 'writeFileSync');
-    sandbox.stub($, 'execSync');
-    sandbox.stub(process, 'exit');
-    sandbox.stub(console, 'error');
+    sinon.stub(fs, 'readFileSync');
+    sinon.stub(fs, 'writeFileSync');
+    sinon.stub($, 'execSync');
+    sinon.stub(process, 'exit');
+    sinon.stub(console, 'error');
     fs.readFileSync.withArgs('package.json').returns(JSON.stringify({
       name: '@studio/changes',
       version: '1.0.0',
@@ -25,7 +23,7 @@ describe('changes', () => {
   });
 
   afterEach(() => {
-    sandbox.restore();
+    sinon.restore();
   });
 
   function missingChanges() {
