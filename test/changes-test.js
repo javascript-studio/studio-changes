@@ -215,4 +215,23 @@ describe('changes', () => {
     assert.equals(state.previous, initial);
   });
 
+  it('works with "author" object', () => {
+    fs.readFileSync.withArgs('package.json').returns(JSON.stringify({
+      name: '@studio/changes',
+      version: '1.0.0',
+      author: {
+        name: 'Studio',
+        email: 'support@javascript.studio'
+      }
+    }));
+    missingChanges();
+    setLog('» Inception (Studio)\n\n\n');
+
+    changes.write();
+
+    assert.calledOnce(fs.writeFileSync);
+    assert.calledWith(fs.writeFileSync, 'CHANGES.md',
+      '# Changes\n\n## 1.0.0\n\n- Inception\n');
+  });
+
 });
