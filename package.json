@@ -34,8 +34,8 @@
     }
   },
   "dependencies": {
+    "@studio/editor": "^1.1.1",
     "detect-indent": "^5.0.0",
-    "editor": "^1.0.0",
     "minimist": "^1.2.0"
   },
   "devDependencies": {

@@ -6,7 +6,7 @@
  */
 'use strict';
 
-const editor = require('editor');
+const editor = require('@studio/editor');
 const changes = require('..');
 
 const argv = require('minimist')(process.argv.slice(2), {
