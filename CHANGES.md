@@ -1,5 +1,9 @@
 # Changes
 
+## 1.4.1
+
+- 🐛 Support "author" object in `package.json`
+
 ## 1.4.0
 
 Pat Cavit made `changes` [lerna][] compatible by allowing to specify a custom
