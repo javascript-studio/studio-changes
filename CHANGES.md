@@ -1,5 +1,11 @@
 # Changes
 
+## 1.4.2
+
+- 🐛 Replace editor module with Studio Editor to fix [#14]
+
+[#14]: https://github.com/javascript-studio/studio-changes/issues/14
+
 ## 1.4.1
 
 - 🐛 Support "author" object in `package.json`
