@@ -113,6 +113,30 @@ describe('changes', () => {
       + '- Third (Person)\n\n    > Does\n    > stuff\n\n');
   });
 
+  it('keeps body with two paragraphs together', () => {
+    missingChanges();
+    setLog('» Inception (Studio)\n\nFoo\n\nBar\n\n');
+
+    changes.write();
+
+    assert.calledOnce(fs.writeFileSync);
+    assert.calledWith(fs.writeFileSync, 'CHANGES.md',
+      '# Changes\n\n## 1.0.0\n\n'
+      + '- Inception\n\n    > Foo\n    >\n    > Bar\n\n');
+  });
+
+  it('keeps body with three paragraphs together', () => {
+    missingChanges();
+    setLog('» Inception (Studio)\n\nFoo\n\nBar\n\nDoo\n\n');
+
+    changes.write();
+
+    assert.calledOnce(fs.writeFileSync);
+    assert.calledWith(fs.writeFileSync, 'CHANGES.md',
+      '# Changes\n\n## 1.0.0\n\n'
+      + '- Inception\n\n    > Foo\n    >\n    > Bar\n    >\n    > Doo\n\n');
+  });
+
   it('properly indents lists', () => {
     missingChanges();
     setLog('» Inception (Studio)\n\n- Foo\n- Bar\n- Doo\n\n');
