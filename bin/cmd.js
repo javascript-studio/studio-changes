@@ -11,6 +11,7 @@ const changes = require('..');
 
 const argv = require('minimist')(process.argv.slice(2), {
   alias: {
+    commits: 'c',
     file: 'f',
     tag: 't',
     help: 'h'
@@ -23,6 +24,8 @@ if (argv.help) {
 
 Options:
       --init            Add version lifecycle scripts to package.json.
+  -c, --commits [URL]   Generate links to commits using the given URL as base.
+                        If no URL is given it defaults to "\${homepage}/commit".
   -f, --file [FILENAME] Specify the name of the changelog file. Defaults to CHANGES.md.
   -t, --tag [FORMAT]    Specify a custom git tag format to use. Defaults to "v\${version}".
   -h, --help            Display this help message.
@@ -45,6 +48,9 @@ if (argv.file) {
 }
 if (argv.tag) {
   options.tag_format = argv.tag;
+}
+if (argv.commits) {
+  options.commits = argv.commits;
 }
 
 // Write the commit history to the changes file

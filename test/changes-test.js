@@ -17,7 +17,8 @@ describe('changes', () => {
     fs.readFileSync.withArgs('package.json').returns(JSON.stringify({
       name: '@studio/changes',
       version: '1.0.0',
-      author: 'Studio <support@javascript.studio>'
+      author: 'Studio <support@javascript.studio>',
+      homepage: 'https://github.com/javascript-studio/studio-changes'
     }));
   });
 
@@ -256,6 +257,66 @@ describe('changes', () => {
     assert.calledOnce(fs.writeFileSync);
     assert.calledWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n- Inception\n');
+  });
+
+  it('adds commits with specified base', () => {
+    missingChanges();
+    setLog('» [cbac1d0](https://javascript.studio/commit/'
+      + 'cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)«  Message (Author)\n\n\n');
+
+    changes.write({
+      commits: 'https://javascript.studio/commit'
+    });
+
+    assert.calledOnce(fs.writeFileSync);
+    assert.calledWith(fs.writeFileSync, 'CHANGES.md',
+      '# Changes\n\n## 1.0.0\n\n'
+      + '- [cbac1d0](https://javascript.studio/commit/'
+      + 'cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)\n  Message (Author)\n');
+    assert.calledWithMatch($.execSync,
+      'git log  --format="» [%h](https://javascript.studio/commit/%H)«  %s');
+  });
+
+  it('adds commits with base from package.json homepage + /commit', () => {
+    missingChanges();
+    setLog('» [cbac1d0](https://github.com/javascript-studio/studio-changes/'
+      + 'commit/cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)«'
+      + '  Message (Author)\n\n\n');
+
+    changes.write({
+      commits: true
+    });
+
+    assert.calledOnce(fs.writeFileSync);
+    assert.calledWith(fs.writeFileSync, 'CHANGES.md',
+      '# Changes\n\n## 1.0.0\n\n'
+      + '- [cbac1d0](https://github.com/javascript-studio/studio-changes/'
+      + 'commit/cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)\n'
+      + '  Message (Author)\n');
+    assert.calledWithMatch($.execSync,
+      'git log  --format="» [%h](https://github.com/javascript-studio/'
+      + 'studio-changes/commit/%H)«  %s');
+  });
+
+  it('adds commits using base URL template', () => {
+    missingChanges();
+    setLog('» [cbac1d0](https://github.com/javascript-studio/studio-changes/'
+      + 'foo/cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)«'
+      + '  Message (Author)\n\n\n');
+
+    changes.write({
+      commits: '${homepage}/foo'
+    });
+
+    assert.calledOnce(fs.writeFileSync);
+    assert.calledWith(fs.writeFileSync, 'CHANGES.md',
+      '# Changes\n\n## 1.0.0\n\n'
+      + '- [cbac1d0](https://github.com/javascript-studio/studio-changes/'
+      + 'foo/cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)\n'
+      + '  Message (Author)\n');
+    assert.calledWithMatch($.execSync,
+      'git log  --format="» [%h](https://github.com/javascript-studio/'
+      + 'studio-changes/foo/%H)«  %s');
   });
 
 });

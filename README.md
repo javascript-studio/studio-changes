@@ -51,6 +51,8 @@ indentation style will be preserved.
 ## Options
 
 - `--help`, `-h`: Display a help message.
+- `--commits`, `-c`: Generate links to commits using the given URL as base. If
+  no URL is given it defaults to `${homepage}/commit`.
 - `--file`, `-f`: Specify the name of the changelog file. Defaults to
   `CHANGES.md`.
 - `--init`: Add version lifecycle scripts to `package.json`.
