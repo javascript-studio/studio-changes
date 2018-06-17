@@ -1,5 +1,14 @@
 # Changes
 
+## 1.5.0
+
+- 🍏 [a8da440](https://github.com/javascript-studio/studio-changes/commit/a8da4404ca9ee546f9b27c3f65df25c683b1c21d)
+  Add commit links with --commits
+- 🍏 [9c7d655](https://github.com/javascript-studio/studio-changes/commit/9c7d65560b33087ee7cd2adc88dee3a1a054901c)
+  Use new `-c` option
+- 🐛 [a5e2d02](https://github.com/javascript-studio/studio-changes/commit/a5e2d029a82b56385746402a8f5b1485d3eede55)
+  Keep body with multiple paragraphs together
+
 ## 1.4.2
 
 - 🐛 Replace editor module with Studio Editor to fix [#14]
