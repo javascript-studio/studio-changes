@@ -2,8 +2,7 @@
 'use strict';
 
 const fs = require('fs');
-const assert = require('assert');
-const sinon = require('sinon');
+const { assert, refute, sinon } = require('@sinonjs/referee-sinon');
 const init = require('../lib/init');
 
 const SCRIPT_PREVERSION = 'npm test';
@@ -30,9 +29,9 @@ describe('init', () => {
 
     const result = init();
 
-    assert.equal(result, true);
-    sinon.assert.calledOnce(fs.writeFileSync);
-    sinon.assert.calledWith(fs.writeFileSync, 'package.json', `{
+    assert.isTrue(result);
+    assert.calledOnce(fs.writeFileSync);
+    assert.calledWith(fs.writeFileSync, 'package.json', `{
   "scripts": {
     "preversion": "${SCRIPT_PREVERSION}",
     "version": "${SCRIPT_VERSION}",
@@ -51,9 +50,9 @@ describe('init', () => {
 
     const result = init();
 
-    assert.equal(result, true);
-    sinon.assert.calledOnce(fs.writeFileSync);
-    sinon.assert.calledWith(fs.writeFileSync, 'package.json', `{
+    assert.isTrue(result);
+    assert.calledOnce(fs.writeFileSync);
+    assert.calledWith(fs.writeFileSync, 'package.json', `{
     "scripts": {
         "test": "echo 'no tests'",
         "preversion": "${SCRIPT_PREVERSION}",
@@ -73,9 +72,9 @@ describe('init', () => {
 
     const result = init();
 
-    assert.equal(result, true);
-    sinon.assert.calledOnce(fs.writeFileSync);
-    sinon.assert.calledWith(fs.writeFileSync, 'package.json', `{
+    assert.isTrue(result);
+    assert.calledOnce(fs.writeFileSync);
+    assert.calledWith(fs.writeFileSync, 'package.json', `{
   "scripts": {
     "preversion": "echo 'Already defined'",
     "version": "${SCRIPT_VERSION}",
@@ -94,9 +93,9 @@ describe('init', () => {
 
     const result = init();
 
-    assert.equal(result, true);
-    sinon.assert.calledOnce(fs.writeFileSync);
-    sinon.assert.calledWith(fs.writeFileSync, 'package.json', `{
+    assert.isTrue(result);
+    assert.calledOnce(fs.writeFileSync);
+    assert.calledWith(fs.writeFileSync, 'package.json', `{
   "scripts": {
     "postversion": "echo 'Already defined'",
     "preversion": "${SCRIPT_PREVERSION}",
@@ -115,8 +114,8 @@ describe('init', () => {
 
     const result = init();
 
-    assert.equal(result, false);
-    sinon.assert.notCalled(fs.writeFileSync);
+    assert.isFalse(result);
+    refute.called(fs.writeFileSync);
   });
 
   it('adds --file options if passed', () => {
@@ -124,9 +123,9 @@ describe('init', () => {
 
     const result = init({ file: 'changelog.md' });
 
-    assert.equal(result, true);
-    sinon.assert.calledOnce(fs.writeFileSync);
-    sinon.assert.calledWith(fs.writeFileSync, 'package.json', `{
+    assert.isTrue(result);
+    assert.calledOnce(fs.writeFileSync);
+    assert.calledWith(fs.writeFileSync, 'package.json', `{
   "scripts": {
     "preversion": "${SCRIPT_PREVERSION}",
     "version": "${SCRIPT_VERSION} --file changelog.md",

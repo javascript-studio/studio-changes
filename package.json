@@ -39,10 +39,10 @@
     "minimist": "^1.2.0"
   },
   "devDependencies": {
+    "@sinonjs/referee-sinon": "^3.0.0",
     "@studio/eslint-config": "^1.0.2",
     "eslint": "^4.19.1",
-    "mocha": "^5.1.1",
-    "sinon": "^5.0.7"
+    "mocha": "^5.2.0"
   },
   "repository": {
     "type": "git",
