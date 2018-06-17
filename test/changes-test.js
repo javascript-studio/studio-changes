@@ -3,8 +3,7 @@
 
 const fs = require('fs');
 const $ = require('child_process');
-const assert = require('assert');
-const sinon = require('sinon');
+const { assert, refute, sinon } = require('@sinonjs/referee-sinon');
 const changes = require('..');
 
 describe('changes', () => {
@@ -44,12 +43,12 @@ describe('changes', () => {
 
     const state = changes.write();
 
-    sinon.assert.calledOnce(fs.writeFileSync);
-    sinon.assert.calledWith(fs.writeFileSync, 'CHANGES.md',
+    assert.calledOnce(fs.writeFileSync);
+    assert.calledWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n- Inception (That Dude)\n');
-    sinon.assert.calledOnce($.execSync);
-    sinon.assert.calledWithMatch($.execSync, 'git log  --format=');
-    assert.equal(state.changes_file, 'CHANGES.md');
+    assert.calledOnce($.execSync);
+    assert.calledWithMatch($.execSync, 'git log  --format=');
+    assert.equals(state.changes_file, 'CHANGES.md');
   });
 
   it('generates new changes file to custom location', () => {
@@ -58,10 +57,10 @@ describe('changes', () => {
 
     const state = changes.write({ changes_file: 'foo.txt' });
 
-    sinon.assert.calledOnce(fs.writeFileSync);
-    sinon.assert.calledWith(fs.writeFileSync, 'foo.txt',
+    assert.calledOnce(fs.writeFileSync);
+    assert.calledWith(fs.writeFileSync, 'foo.txt',
       '# Changes\n\n## 1.0.0\n\n- Inception (That Dude)\n');
-    assert.equal(state.changes_file, 'foo.txt');
+    assert.equals(state.changes_file, 'foo.txt');
   });
 
   it('removes package author', () => {
@@ -70,8 +69,8 @@ describe('changes', () => {
 
     changes.write();
 
-    sinon.assert.calledOnce(fs.writeFileSync);
-    sinon.assert.calledWith(fs.writeFileSync, 'CHANGES.md',
+    assert.calledOnce(fs.writeFileSync);
+    assert.calledWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n- Inception\n');
   });
 
@@ -82,12 +81,12 @@ describe('changes', () => {
 
     const state = changes.write();
 
-    sinon.assert.calledOnce(fs.writeFileSync);
-    sinon.assert.calledWith(fs.writeFileSync, 'CHANGES.md',
+    assert.calledOnce(fs.writeFileSync);
+    assert.calledWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n- Inception\n\n## 0.1.0\n\nSome foo.\n');
-    sinon.assert.calledOnce($.execSync);
-    sinon.assert.calledWithMatch($.execSync, 'git log v0.1.0..HEAD');
-    assert.equal(state.previous, initial);
+    assert.calledOnce($.execSync);
+    assert.calledWithMatch($.execSync, 'git log v0.1.0..HEAD');
+    assert.equals(state.previous, initial);
   });
 
   it('identifies previous commit with -beta suffix', () => {
@@ -96,7 +95,7 @@ describe('changes', () => {
 
     changes.write();
 
-    sinon.assert.calledWithMatch($.execSync, 'git log v0.1.0-beta..HEAD');
+    assert.calledWithMatch($.execSync, 'git log v0.1.0-beta..HEAD');
   });
 
   it('adds body indented on new line', () => {
@@ -106,8 +105,8 @@ describe('changes', () => {
 
     changes.write();
 
-    sinon.assert.calledOnce(fs.writeFileSync);
-    sinon.assert.calledWith(fs.writeFileSync, 'CHANGES.md',
+    assert.calledOnce(fs.writeFileSync);
+    assert.calledWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n'
       + '- Inception\n\n    > Foo Bar Doo\n\n'
       + '- Other (Dude)\n'
@@ -120,8 +119,8 @@ describe('changes', () => {
 
     changes.write();
 
-    sinon.assert.calledOnce(fs.writeFileSync);
-    sinon.assert.calledWith(fs.writeFileSync, 'CHANGES.md',
+    assert.calledOnce(fs.writeFileSync);
+    assert.calledWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n'
       + '- Inception\n\n    > - Foo\n    > - Bar\n    > - Doo\n\n');
   });
@@ -131,10 +130,10 @@ describe('changes', () => {
 
     changes.write();
 
-    sinon.assert.calledOnce(console.error);
-    sinon.assert.calledWith(console.error, 'Unexpected CHANGES.md file header');
-    sinon.assert.calledOnce(process.exit);
-    sinon.assert.calledWith(process.exit, 1);
+    assert.calledOnce(console.error);
+    assert.calledWith(console.error, 'Unexpected CHANGES.md file header');
+    assert.calledOnce(process.exit);
+    assert.calledWith(process.exit, 1);
   });
 
   it('fails if version is already in changes file', () => {
@@ -143,10 +142,10 @@ describe('changes', () => {
 
     changes.write();
 
-    sinon.assert.calledWith(console.error,
+    assert.calledWith(console.error,
       'Version 1.0.0 is already in CHANGES.md\n');
-    sinon.assert.calledOnce(process.exit);
-    sinon.assert.calledWith(process.exit, 1);
+    assert.calledOnce(process.exit);
+    assert.calledWith(process.exit, 1);
   });
 
   it('shows outstanding changes if version is already in changes file', () => {
@@ -155,8 +154,8 @@ describe('changes', () => {
 
     changes.write();
 
-    sinon.assert.calledWith(console.error, '# Changes for next release:\n');
-    sinon.assert.calledWith(console.error, '- Up next\n');
+    assert.calledWith(console.error, '# Changes for next release:\n');
+    assert.calledWith(console.error, '- Up next\n');
   });
 
   it('does not show outstanding changes if no new commits where found', () => {
@@ -165,10 +164,9 @@ describe('changes', () => {
 
     changes.write();
 
-    sinon.assert.calledWith(console.error,
+    assert.calledWith(console.error,
       'Version 1.0.0 is already in CHANGES.md\n');
-    sinon.assert.neverCalledWith(console.error,
-      '# Changes for next release:\n');
+    refute.calledWith(console.error, '# Changes for next release:\n');
   });
 
   it('works if changes file was checked out with CRLF', () => {
@@ -178,13 +176,13 @@ describe('changes', () => {
 
     const state = changes.write();
 
-    sinon.assert.calledOnce(fs.writeFileSync);
-    sinon.assert.calledWith(fs.writeFileSync, 'CHANGES.md', '# Changes\r\n\r\n'
+    assert.calledOnce(fs.writeFileSync);
+    assert.calledWith(fs.writeFileSync, 'CHANGES.md', '# Changes\r\n\r\n'
       + '## 1.0.0\r\n\r\n- JavaScript\r\n\r\n    > What else?\r\n\r\n'
       + '## 0.0.1\r\n\r\n- Inception\r\n');
-    sinon.assert.calledOnce($.execSync);
-    sinon.assert.calledWithMatch($.execSync, 'git log v0.0.1..HEAD');
-    assert.equal(state.previous, initial);
+    assert.calledOnce($.execSync);
+    assert.calledWithMatch($.execSync, 'git log v0.0.1..HEAD');
+    assert.equals(state.previous, initial);
   });
 
   it('fails if version is already in changes file with CRLF', () => {
@@ -193,10 +191,10 @@ describe('changes', () => {
 
     changes.write();
 
-    sinon.assert.calledWith(console.error,
+    assert.calledWith(console.error,
       'Version 1.0.0 is already in CHANGES.md\n');
-    sinon.assert.calledOnce(process.exit);
-    sinon.assert.calledWith(process.exit, 1);
+    assert.calledOnce(process.exit);
+    assert.calledWith(process.exit, 1);
   });
 
   it('should support custom tag formats when updating a file', () => {
@@ -208,13 +206,13 @@ describe('changes', () => {
       tag_format: '${name}@${version}'
     });
 
-    sinon.assert.calledOnce(fs.writeFileSync);
-    sinon.assert.calledWith(fs.writeFileSync, 'CHANGES.md',
+    assert.calledOnce(fs.writeFileSync);
+    assert.calledWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n- Inception\n\n## 0.1.0\n\nSome foo.\n');
-    sinon.assert.calledOnce($.execSync);
-    sinon.assert.calledWithMatch($.execSync,
+    assert.calledOnce($.execSync);
+    assert.calledWithMatch($.execSync,
       'git log @studio/changes@0.1.0..HEAD');
-    assert.equal(state.previous, initial);
+    assert.equals(state.previous, initial);
   });
 
 });
