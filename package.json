@@ -12,7 +12,7 @@
     "watch": "mocha --watch",
     "posttest": "npm run lint",
     "preversion": "npm test",
-    "version": "bin/cmd.js",
+    "version": "bin/cmd.js -c",
     "postversion": "git push --follow-tags && npm publish"
   },
   "keywords": [
