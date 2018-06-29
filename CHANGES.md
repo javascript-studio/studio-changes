@@ -1,5 +1,10 @@
 # Changes
 
+## 1.5.1
+
+- 🐛 [`eff93ab`](https://github.com/javascript-studio/studio-changes/commit/eff93ab669f64a4ea73b4e2a48cac218fc94e616)
+  Wrap commit link text in back ticks
+
 ## 1.5.0
 
 - 🍏 [a8da440](https://github.com/javascript-studio/studio-changes/commit/a8da4404ca9ee546f9b27c3f65df25c683b1c21d)
