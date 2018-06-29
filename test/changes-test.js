@@ -261,7 +261,7 @@ describe('changes', () => {
 
   it('adds commits with specified base', () => {
     missingChanges();
-    setLog('» [cbac1d0](https://javascript.studio/commit/'
+    setLog('» [`cbac1d0`](https://javascript.studio/commit/'
       + 'cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)«  Message (Author)\n\n\n');
 
     changes.write({
@@ -271,15 +271,16 @@ describe('changes', () => {
     assert.calledOnce(fs.writeFileSync);
     assert.calledWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n'
-      + '- [cbac1d0](https://javascript.studio/commit/'
+      + '- [`cbac1d0`](https://javascript.studio/commit/'
       + 'cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)\n  Message (Author)\n');
     assert.calledWithMatch($.execSync,
-      'git log  --format="» [%h](https://javascript.studio/commit/%H)«  %s');
+      'git log  --format="» [\\`%h\\`](https://javascript.studio/commit/%H)'
+      + '«  %s');
   });
 
   it('adds commits with base from package.json homepage + /commit', () => {
     missingChanges();
-    setLog('» [cbac1d0](https://github.com/javascript-studio/studio-changes/'
+    setLog('» [`cbac1d0`](https://github.com/javascript-studio/studio-changes/'
       + 'commit/cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)«'
       + '  Message (Author)\n\n\n');
 
@@ -290,17 +291,17 @@ describe('changes', () => {
     assert.calledOnce(fs.writeFileSync);
     assert.calledWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n'
-      + '- [cbac1d0](https://github.com/javascript-studio/studio-changes/'
+      + '- [`cbac1d0`](https://github.com/javascript-studio/studio-changes/'
       + 'commit/cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)\n'
       + '  Message (Author)\n');
     assert.calledWithMatch($.execSync,
-      'git log  --format="» [%h](https://github.com/javascript-studio/'
+      'git log  --format="» [\\`%h\\`](https://github.com/javascript-studio/'
       + 'studio-changes/commit/%H)«  %s');
   });
 
   it('adds commits using base URL template', () => {
     missingChanges();
-    setLog('» [cbac1d0](https://github.com/javascript-studio/studio-changes/'
+    setLog('» [`cbac1d0`](https://github.com/javascript-studio/studio-changes/'
       + 'foo/cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)«'
       + '  Message (Author)\n\n\n');
 
@@ -311,11 +312,11 @@ describe('changes', () => {
     assert.calledOnce(fs.writeFileSync);
     assert.calledWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n'
-      + '- [cbac1d0](https://github.com/javascript-studio/studio-changes/'
+      + '- [`cbac1d0`](https://github.com/javascript-studio/studio-changes/'
       + 'foo/cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)\n'
       + '  Message (Author)\n');
     assert.calledWithMatch($.execSync,
-      'git log  --format="» [%h](https://github.com/javascript-studio/'
+      'git log  --format="» [\\`%h\\`](https://github.com/javascript-studio/'
       + 'studio-changes/foo/%H)«  %s');
   });
 
