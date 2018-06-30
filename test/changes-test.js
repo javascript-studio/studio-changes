@@ -14,17 +14,20 @@ describe('changes', () => {
     sinon.stub($, 'execSync');
     sinon.stub(process, 'exit');
     sinon.stub(console, 'error');
-    fs.readFileSync.withArgs('package.json').returns(JSON.stringify({
-      name: '@studio/changes',
-      version: '1.0.0',
-      author: 'Studio <support@javascript.studio>',
-      homepage: 'https://github.com/javascript-studio/studio-changes'
-    }));
   });
 
   afterEach(() => {
     sinon.restore();
   });
+
+  function packageJson(json) {
+    fs.readFileSync.withArgs('package.json').returns(JSON.stringify(json || {
+      name: '@studio/changes',
+      version: '1.0.0',
+      author: 'Studio <support@javascript.studio>',
+      homepage: 'https://github.com/javascript-studio/studio-changes'
+    }));
+  }
 
   function missingChanges() {
     fs.readFileSync.withArgs('CHANGES.md').throws(new Error());
@@ -39,6 +42,7 @@ describe('changes', () => {
   }
 
   it('generates new changes file to default location', () => {
+    packageJson();
     missingChanges();
     setLog('» Inception (That Dude)\n\n\n');
 
@@ -53,6 +57,7 @@ describe('changes', () => {
   });
 
   it('generates new changes file to custom location', () => {
+    packageJson();
     missingChanges();
     setLog('» Inception (That Dude)\n\n\n');
 
@@ -65,6 +70,7 @@ describe('changes', () => {
   });
 
   it('removes package author', () => {
+    packageJson();
     missingChanges();
     setLog('» Inception (Studio)\n\n\n');
 
@@ -76,6 +82,7 @@ describe('changes', () => {
   });
 
   it('add commit log to existing changes file', () => {
+    packageJson();
     const initial = '# Changes\n\n## 0.1.0\n\nSome foo.\n';
     setChanges(initial);
     setLog('» Inception (Studio)\n\n\n');
@@ -91,6 +98,7 @@ describe('changes', () => {
   });
 
   it('identifies previous commit with -beta suffix', () => {
+    packageJson();
     setChanges('# Changes\n\n## 0.1.0-beta\n\nSome foo.\n');
     setLog('» Inception (Studio)\n\n\n');
 
@@ -100,6 +108,7 @@ describe('changes', () => {
   });
 
   it('adds body indented on new line', () => {
+    packageJson();
     missingChanges();
     setLog('» Inception (Studio)\n\nFoo Bar Doo\n\n» Other (Dude)\n\n\n'
       + '» Third (Person)\n\nDoes\nstuff\n\n');
@@ -115,6 +124,7 @@ describe('changes', () => {
   });
 
   it('keeps body with two paragraphs together', () => {
+    packageJson();
     missingChanges();
     setLog('» Inception (Studio)\n\nFoo\n\nBar\n\n');
 
@@ -127,6 +137,7 @@ describe('changes', () => {
   });
 
   it('keeps body with three paragraphs together', () => {
+    packageJson();
     missingChanges();
     setLog('» Inception (Studio)\n\nFoo\n\nBar\n\nDoo\n\n');
 
@@ -139,6 +150,7 @@ describe('changes', () => {
   });
 
   it('properly indents lists', () => {
+    packageJson();
     missingChanges();
     setLog('» Inception (Studio)\n\n- Foo\n- Bar\n- Doo\n\n');
 
@@ -151,6 +163,7 @@ describe('changes', () => {
   });
 
   it('properly indents list with multiline entry', () => {
+    packageJson();
     missingChanges();
     setLog('» Inception (Studio)\n\n- Foo\n  next line\n- Bar\n\n');
 
@@ -163,6 +176,7 @@ describe('changes', () => {
   });
 
   it('fails if changes file has not the right format', () => {
+    packageJson();
     setChanges('# Something else\n\n## 1.0.0\n\nFoo');
 
     changes.write();
@@ -174,6 +188,7 @@ describe('changes', () => {
   });
 
   it('fails if version is already in changes file', () => {
+    packageJson();
     setChanges('# Changes\n\n## 1.0.0\n\nFoo');
     setLog('foo');
 
@@ -186,6 +201,7 @@ describe('changes', () => {
   });
 
   it('shows outstanding changes if version is already in changes file', () => {
+    packageJson();
     setChanges('# Changes\n\n## 1.0.0\n\nFoo');
     setLog('» Up next (Studio)\n\n\n');
 
@@ -196,6 +212,7 @@ describe('changes', () => {
   });
 
   it('does not show outstanding changes if no new commits where found', () => {
+    packageJson();
     setChanges('# Changes\n\n## 1.0.0\n\nFoo');
     setLog('');
 
@@ -207,6 +224,7 @@ describe('changes', () => {
   });
 
   it('works if changes file was checked out with CRLF', () => {
+    packageJson();
     const initial = '# Changes\r\n\r\n## 0.0.1\r\n\r\n- Inception\r\n';
     setChanges(initial);
     setLog('» JavaScript (Studio)\n\nWhat else?\n\n\n');
@@ -223,6 +241,7 @@ describe('changes', () => {
   });
 
   it('fails if version is already in changes file with CRLF', () => {
+    packageJson();
     setChanges('# Changes\r\n\r\n## 1.0.0\r\n\r\nFoo');
     setLog('foo');
 
@@ -235,6 +254,7 @@ describe('changes', () => {
   });
 
   it('should support custom tag formats when updating a file', () => {
+    packageJson();
     const initial = '# Changes\n\n## 0.1.0\n\nSome foo.\n';
     setChanges(initial);
     setLog('» Inception (Studio)\n\n\n');
@@ -253,14 +273,14 @@ describe('changes', () => {
   });
 
   it('works with "author" object', () => {
-    fs.readFileSync.withArgs('package.json').returns(JSON.stringify({
+    packageJson({
       name: '@studio/changes',
       version: '1.0.0',
       author: {
         name: 'Studio',
         email: 'support@javascript.studio'
       }
-    }));
+    });
     missingChanges();
     setLog('» Inception (Studio)\n\n\n');
 
@@ -272,6 +292,7 @@ describe('changes', () => {
   });
 
   it('adds commits with specified base', () => {
+    packageJson();
     missingChanges();
     setLog('» [`cbac1d0`](https://javascript.studio/commit/'
       + 'cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)«  Message (Author)\n\n\n');
@@ -291,6 +312,7 @@ describe('changes', () => {
   });
 
   it('adds commits with base from package.json homepage + /commit', () => {
+    packageJson();
     missingChanges();
     setLog('» [`cbac1d0`](https://github.com/javascript-studio/studio-changes/'
       + 'commit/cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)«'
@@ -311,7 +333,24 @@ describe('changes', () => {
       + 'studio-changes/commit/%H)«  %s');
   });
 
+  it('fails if --commits but missing "homepage" in package.json', () => {
+    packageJson({
+      name: '@studio/changes',
+      version: '1.0.0'
+    });
+
+    changes.write({
+      commits: true
+    });
+
+    assert.calledWith(console.error,
+      '--commits option requires base URL or "homepage" in package.json\n');
+    assert.calledOnce(process.exit);
+    assert.calledWith(process.exit, 1);
+  });
+
   it('adds commits using base URL template', () => {
+    packageJson();
     missingChanges();
     setLog('» [`cbac1d0`](https://github.com/javascript-studio/studio-changes/'
       + 'foo/cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)«'
