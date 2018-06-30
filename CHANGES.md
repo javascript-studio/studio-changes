@@ -1,5 +1,14 @@
 # Changes
 
+## 1.5.2
+
+- 🐛 [`f7e5f73`](https://github.com/javascript-studio/studio-changes/commit/f7e5f73021c37e0eca02b8f02f334c0d181538d4)
+  Fail `--commits` if homepage is missing
+- 🐛 [`37170e2`](https://github.com/javascript-studio/studio-changes/commit/37170e257df2da65e83c2bcaa3ea1e72358fe5a1)
+  Fix indentation for multi-line lists in body
+- ✨ [`478f1ef`](https://github.com/javascript-studio/studio-changes/commit/478f1efc80ca80c12608f87199af1ead16b7fd81)
+  Upgrade Referee + Sinon and Eslint
+
 ## 1.5.1
 
 - 🐛 [`eff93ab`](https://github.com/javascript-studio/studio-changes/commit/eff93ab669f64a4ea73b4e2a48cac218fc94e616)
