@@ -111,7 +111,7 @@ describe('changes', () => {
       '# Changes\n\n## 1.0.0\n\n'
       + '- Inception\n\n    > Foo Bar Doo\n\n'
       + '- Other (Dude)\n'
-      + '- Third (Person)\n\n    > Does\n    > stuff\n\n');
+      + '- Third (Person)\n\n    > Does\n    > stuff\n');
   });
 
   it('keeps body with two paragraphs together', () => {
@@ -123,7 +123,7 @@ describe('changes', () => {
     assert.calledOnce(fs.writeFileSync);
     assert.calledWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n'
-      + '- Inception\n\n    > Foo\n    >\n    > Bar\n\n');
+      + '- Inception\n\n    > Foo\n    >\n    > Bar\n');
   });
 
   it('keeps body with three paragraphs together', () => {
@@ -135,7 +135,7 @@ describe('changes', () => {
     assert.calledOnce(fs.writeFileSync);
     assert.calledWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n'
-      + '- Inception\n\n    > Foo\n    >\n    > Bar\n    >\n    > Doo\n\n');
+      + '- Inception\n\n    > Foo\n    >\n    > Bar\n    >\n    > Doo\n');
   });
 
   it('properly indents lists', () => {
@@ -147,7 +147,19 @@ describe('changes', () => {
     assert.calledOnce(fs.writeFileSync);
     assert.calledWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n'
-      + '- Inception\n\n    > - Foo\n    > - Bar\n    > - Doo\n\n');
+      + '- Inception\n\n    > - Foo\n    > - Bar\n    > - Doo\n');
+  });
+
+  it('properly indents list with multiline entry', () => {
+    missingChanges();
+    setLog('» Inception (Studio)\n\n- Foo\n  next line\n- Bar\n\n');
+
+    changes.write();
+
+    assert.calledOnce(fs.writeFileSync);
+    assert.calledWith(fs.writeFileSync, 'CHANGES.md',
+      '# Changes\n\n## 1.0.0\n\n'
+      + '- Inception\n\n    > - Foo\n    >   next line\n    > - Bar\n');
   });
 
   it('fails if changes file has not the right format', () => {
