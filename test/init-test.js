@@ -18,6 +18,7 @@ describe('init', () => {
       version: '1.0.0',
       author: 'Studio <support@javascript.studio>'
     }));
+    sinon.stub(console, 'error');
   });
 
   afterEach(() => {
@@ -129,6 +130,134 @@ describe('init', () => {
   "scripts": {
     "preversion": "${SCRIPT_PREVERSION}",
     "version": "${SCRIPT_VERSION} --file changelog.md",
+    "postversion": "${SCRIPT_POSTVERSION}"
+  }
+}
+`);
+  });
+
+  it('adds --commits if homepage is configured', () => {
+    fs.readFileSync.withArgs('package.json').returns(`{
+  "homepage": "https://github.com/javascript-studio/studio-changes"
+}`);
+
+    const result = init();
+
+    assert.isTrue(result);
+    assert.calledOnce(fs.writeFileSync);
+    assert.calledWith(fs.writeFileSync, 'package.json', `{
+  "homepage": "https://github.com/javascript-studio/studio-changes",
+  "scripts": {
+    "preversion": "${SCRIPT_PREVERSION}",
+    "version": "${SCRIPT_VERSION} --commits",
+    "postversion": "${SCRIPT_POSTVERSION}"
+  }
+}
+`);
+  });
+
+  it('adds --commits option if passed', () => {
+    fs.readFileSync.withArgs('package.json').returns('{}');
+
+    const result = init({ commits: 'https://javascript.studio' });
+
+    assert.isTrue(result);
+    assert.calledOnce(fs.writeFileSync);
+    assert.calledWith(fs.writeFileSync, 'package.json', `{
+  "scripts": {
+    "preversion": "${SCRIPT_PREVERSION}",
+    "version": "${SCRIPT_VERSION} --commits https://javascript.studio",
+    "postversion": "${SCRIPT_POSTVERSION}"
+  }
+}
+`);
+  });
+
+  it('adds --commits if homepage is configured and --commits is given', () => {
+    fs.readFileSync.withArgs('package.json').returns(`{
+  "homepage": "https://github.com/javascript-studio/studio-changes"
+}`);
+
+    const result = init({ commits: true }); // no argument provided, but present
+
+    assert.isTrue(result);
+    assert.calledOnce(fs.writeFileSync);
+    assert.calledWith(fs.writeFileSync, 'package.json', `{
+  "homepage": "https://github.com/javascript-studio/studio-changes",
+  "scripts": {
+    "preversion": "${SCRIPT_PREVERSION}",
+    "version": "${SCRIPT_VERSION} --commits",
+    "postversion": "${SCRIPT_POSTVERSION}"
+  }
+}
+`);
+  });
+
+  it('fails if --commits is given but homepage is missing', () => {
+    fs.readFileSync.withArgs('package.json').returns('{}');
+
+    const result = init({ commits: true }); // no argument provided, but present
+
+    assert.isFalse(result);
+    refute.called(fs.writeFileSync);
+    assert.calledOnceWith(console.error,
+      '--commits option requires base URL or "homepage" in package.json\n');
+  });
+
+  it('adds --file and --commits options if passed', () => {
+    fs.readFileSync.withArgs('package.json').returns('{}');
+
+    const result = init({
+      file: 'changelog.md',
+      commits: 'https://studio'
+    });
+
+    assert.isTrue(result);
+    assert.calledOnce(fs.writeFileSync);
+    assert.calledWith(fs.writeFileSync, 'package.json', `{
+  "scripts": {
+    "preversion": "${SCRIPT_PREVERSION}",
+    "version": "${SCRIPT_VERSION} --file changelog.md --commits https://studio",
+    "postversion": "${SCRIPT_POSTVERSION}"
+  }
+}
+`);
+  });
+
+  it('prefers explicitly specified --commits config over homepage', () => {
+    fs.readFileSync.withArgs('package.json').returns(`{
+  "homepage": "https://github.com/javascript-studio/studio-changes"
+}`);
+
+    const result = init({ commits: 'https://javascript.studio' });
+
+    assert.isTrue(result);
+    assert.calledOnce(fs.writeFileSync);
+    assert.calledWith(fs.writeFileSync, 'package.json', `{
+  "homepage": "https://github.com/javascript-studio/studio-changes",
+  "scripts": {
+    "preversion": "${SCRIPT_PREVERSION}",
+    "version": "${SCRIPT_VERSION} --commits https://javascript.studio",
+    "postversion": "${SCRIPT_POSTVERSION}"
+  }
+}
+`);
+  });
+
+  it('combines --file with package.json homepage', () => {
+    fs.readFileSync.withArgs('package.json').returns(`{
+  "homepage": "https://github.com/javascript-studio/studio-changes"
+}`);
+
+    const result = init({ file: 'changelog.md' });
+
+    assert.isTrue(result);
+    assert.calledOnce(fs.writeFileSync);
+    assert.calledWith(fs.writeFileSync, 'package.json', `{
+  "homepage": "https://github.com/javascript-studio/studio-changes",
+  "scripts": {
+    "preversion": "${SCRIPT_PREVERSION}",
+    "version": "${SCRIPT_VERSION} --file changelog.md --commits",
     "postversion": "${SCRIPT_POSTVERSION}"
   }
 }

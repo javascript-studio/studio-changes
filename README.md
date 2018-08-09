@@ -52,10 +52,12 @@ indentation style will be preserved.
 
 - `--help`, `-h`: Display a help message.
 - `--commits`, `-c`: Generate links to commits using the given URL as base. If
-  no URL is given it defaults to `${homepage}/commit`.
+  no URL is given it defaults to `${homepage}/commit` using the homepage
+  configured in the `package.json`.
 - `--file`, `-f`: Specify the name of the changelog file. Defaults to
   `CHANGES.md`.
-- `--init`: Add version lifecycle scripts to `package.json`.
+- `--init`: Add version lifecycle scripts to `package.json`. Can be combined
+  with `--file` and `--commits` to configure the `changes` invocation.
 - `--tag`: Use a custom git tag, supports simple replacement of `package.json`
   fields. Defaults to `v${version}`.
 
