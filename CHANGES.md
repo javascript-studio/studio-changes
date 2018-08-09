@@ -1,5 +1,20 @@
 # Changes
 
+## 1.6.0
+
+- 🍏 [`5a7b81a`](https://github.com/javascript-studio/studio-changes/commit/5a7b81a40b87adc9566bbd9b869833eec352acfc)
+  Make `--init` homepage aware
+
+    > When a "homepage" property is present in the `package.json`, the
+    > `--commits` flag is added to the `changes` command. If `--commits URL`
+    > is explicitly specified, that URL is used, regardless of whether a
+    > homepage is configured.
+
+- ✨ [`b63f97f`](https://github.com/javascript-studio/studio-changes/commit/b63f97ff143bf7b4238e88c29944ce7609b273b1)
+  Use `assert.calledOnceWith`
+- ✨ [`26d18c2`](https://github.com/javascript-studio/studio-changes/commit/26d18c27384409d996954df34bbe60521d60dc63)
+  Update `devDependencies`
+
 ## 1.5.2
 
 - 🐛 [`f7e5f73`](https://github.com/javascript-studio/studio-changes/commit/f7e5f73021c37e0eca02b8f02f334c0d181538d4)
