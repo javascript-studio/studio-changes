@@ -48,8 +48,7 @@ describe('changes', () => {
 
     const state = changes.write();
 
-    assert.calledOnce(fs.writeFileSync);
-    assert.calledWith(fs.writeFileSync, 'CHANGES.md',
+    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n- Inception (That Dude)\n');
     assert.calledOnce($.execSync);
     assert.calledWithMatch($.execSync, 'git log  --format=');
@@ -63,8 +62,7 @@ describe('changes', () => {
 
     const state = changes.write({ changes_file: 'foo.txt' });
 
-    assert.calledOnce(fs.writeFileSync);
-    assert.calledWith(fs.writeFileSync, 'foo.txt',
+    assert.calledOnceWith(fs.writeFileSync, 'foo.txt',
       '# Changes\n\n## 1.0.0\n\n- Inception (That Dude)\n');
     assert.equals(state.changes_file, 'foo.txt');
   });
@@ -76,8 +74,7 @@ describe('changes', () => {
 
     changes.write();
 
-    assert.calledOnce(fs.writeFileSync);
-    assert.calledWith(fs.writeFileSync, 'CHANGES.md',
+    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n- Inception\n');
   });
 
@@ -89,8 +86,7 @@ describe('changes', () => {
 
     const state = changes.write();
 
-    assert.calledOnce(fs.writeFileSync);
-    assert.calledWith(fs.writeFileSync, 'CHANGES.md',
+    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n- Inception\n\n## 0.1.0\n\nSome foo.\n');
     assert.calledOnce($.execSync);
     assert.calledWithMatch($.execSync, 'git log v0.1.0..HEAD');
@@ -115,8 +111,7 @@ describe('changes', () => {
 
     changes.write();
 
-    assert.calledOnce(fs.writeFileSync);
-    assert.calledWith(fs.writeFileSync, 'CHANGES.md',
+    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n'
       + '- Inception\n\n    > Foo Bar Doo\n\n'
       + '- Other (Dude)\n'
@@ -130,8 +125,7 @@ describe('changes', () => {
 
     changes.write();
 
-    assert.calledOnce(fs.writeFileSync);
-    assert.calledWith(fs.writeFileSync, 'CHANGES.md',
+    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n'
       + '- Inception\n\n    > Foo\n    >\n    > Bar\n');
   });
@@ -143,8 +137,7 @@ describe('changes', () => {
 
     changes.write();
 
-    assert.calledOnce(fs.writeFileSync);
-    assert.calledWith(fs.writeFileSync, 'CHANGES.md',
+    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n'
       + '- Inception\n\n    > Foo\n    >\n    > Bar\n    >\n    > Doo\n');
   });
@@ -156,8 +149,7 @@ describe('changes', () => {
 
     changes.write();
 
-    assert.calledOnce(fs.writeFileSync);
-    assert.calledWith(fs.writeFileSync, 'CHANGES.md',
+    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n'
       + '- Inception\n\n    > - Foo\n    > - Bar\n    > - Doo\n');
   });
@@ -169,8 +161,7 @@ describe('changes', () => {
 
     changes.write();
 
-    assert.calledOnce(fs.writeFileSync);
-    assert.calledWith(fs.writeFileSync, 'CHANGES.md',
+    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n'
       + '- Inception\n\n    > - Foo\n    >   next line\n    > - Bar\n');
   });
@@ -181,10 +172,8 @@ describe('changes', () => {
 
     changes.write();
 
-    assert.calledOnce(console.error);
-    assert.calledWith(console.error, 'Unexpected CHANGES.md file header');
-    assert.calledOnce(process.exit);
-    assert.calledWith(process.exit, 1);
+    assert.calledOnceWith(console.error, 'Unexpected CHANGES.md file header');
+    assert.calledOnceWith(process.exit, 1);
   });
 
   it('fails if version is already in changes file', () => {
@@ -196,8 +185,7 @@ describe('changes', () => {
 
     assert.calledWith(console.error,
       'Version 1.0.0 is already in CHANGES.md\n');
-    assert.calledOnce(process.exit);
-    assert.calledWith(process.exit, 1);
+    assert.calledOnceWith(process.exit, 1);
   });
 
   it('shows outstanding changes if version is already in changes file', () => {
@@ -231,8 +219,7 @@ describe('changes', () => {
 
     const state = changes.write();
 
-    assert.calledOnce(fs.writeFileSync);
-    assert.calledWith(fs.writeFileSync, 'CHANGES.md', '# Changes\r\n\r\n'
+    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md', '# Changes\r\n\r\n'
       + '## 1.0.0\r\n\r\n- JavaScript\r\n\r\n    > What else?\r\n\r\n'
       + '## 0.0.1\r\n\r\n- Inception\r\n');
     assert.calledOnce($.execSync);
@@ -249,8 +236,7 @@ describe('changes', () => {
 
     assert.calledWith(console.error,
       'Version 1.0.0 is already in CHANGES.md\n');
-    assert.calledOnce(process.exit);
-    assert.calledWith(process.exit, 1);
+    assert.calledOnceWith(process.exit, 1);
   });
 
   it('should support custom tag formats when updating a file', () => {
@@ -263,8 +249,7 @@ describe('changes', () => {
       tag_format: '${name}@${version}'
     });
 
-    assert.calledOnce(fs.writeFileSync);
-    assert.calledWith(fs.writeFileSync, 'CHANGES.md',
+    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n- Inception\n\n## 0.1.0\n\nSome foo.\n');
     assert.calledOnce($.execSync);
     assert.calledWithMatch($.execSync,
@@ -286,8 +271,7 @@ describe('changes', () => {
 
     changes.write();
 
-    assert.calledOnce(fs.writeFileSync);
-    assert.calledWith(fs.writeFileSync, 'CHANGES.md',
+    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n- Inception\n');
   });
 
@@ -301,8 +285,7 @@ describe('changes', () => {
       commits: 'https://javascript.studio/commit'
     });
 
-    assert.calledOnce(fs.writeFileSync);
-    assert.calledWith(fs.writeFileSync, 'CHANGES.md',
+    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n'
       + '- [`cbac1d0`](https://javascript.studio/commit/'
       + 'cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)\n  Message (Author)\n');
@@ -322,8 +305,7 @@ describe('changes', () => {
       commits: true
     });
 
-    assert.calledOnce(fs.writeFileSync);
-    assert.calledWith(fs.writeFileSync, 'CHANGES.md',
+    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n'
       + '- [`cbac1d0`](https://github.com/javascript-studio/studio-changes/'
       + 'commit/cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)\n'
@@ -345,8 +327,7 @@ describe('changes', () => {
 
     assert.calledWith(console.error,
       '--commits option requires base URL or "homepage" in package.json\n');
-    assert.calledOnce(process.exit);
-    assert.calledWith(process.exit, 1);
+    assert.calledOnceWith(process.exit, 1);
   });
 
   it('adds commits using base URL template', () => {
@@ -360,8 +341,7 @@ describe('changes', () => {
       commits: '${homepage}/foo'
     });
 
-    assert.calledOnce(fs.writeFileSync);
-    assert.calledWith(fs.writeFileSync, 'CHANGES.md',
+    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n'
       + '- [`cbac1d0`](https://github.com/javascript-studio/studio-changes/'
       + 'foo/cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)\n'

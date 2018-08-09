@@ -31,8 +31,7 @@ describe('init', () => {
     const result = init();
 
     assert.isTrue(result);
-    assert.calledOnce(fs.writeFileSync);
-    assert.calledWith(fs.writeFileSync, 'package.json', `{
+    assert.calledOnceWith(fs.writeFileSync, 'package.json', `{
   "scripts": {
     "preversion": "${SCRIPT_PREVERSION}",
     "version": "${SCRIPT_VERSION}",
@@ -52,8 +51,7 @@ describe('init', () => {
     const result = init();
 
     assert.isTrue(result);
-    assert.calledOnce(fs.writeFileSync);
-    assert.calledWith(fs.writeFileSync, 'package.json', `{
+    assert.calledOnceWith(fs.writeFileSync, 'package.json', `{
     "scripts": {
         "test": "echo 'no tests'",
         "preversion": "${SCRIPT_PREVERSION}",
@@ -74,8 +72,7 @@ describe('init', () => {
     const result = init();
 
     assert.isTrue(result);
-    assert.calledOnce(fs.writeFileSync);
-    assert.calledWith(fs.writeFileSync, 'package.json', `{
+    assert.calledOnceWith(fs.writeFileSync, 'package.json', `{
   "scripts": {
     "preversion": "echo 'Already defined'",
     "version": "${SCRIPT_VERSION}",
@@ -95,8 +92,7 @@ describe('init', () => {
     const result = init();
 
     assert.isTrue(result);
-    assert.calledOnce(fs.writeFileSync);
-    assert.calledWith(fs.writeFileSync, 'package.json', `{
+    assert.calledOnceWith(fs.writeFileSync, 'package.json', `{
   "scripts": {
     "postversion": "echo 'Already defined'",
     "preversion": "${SCRIPT_PREVERSION}",
@@ -125,8 +121,7 @@ describe('init', () => {
     const result = init({ file: 'changelog.md' });
 
     assert.isTrue(result);
-    assert.calledOnce(fs.writeFileSync);
-    assert.calledWith(fs.writeFileSync, 'package.json', `{
+    assert.calledOnceWith(fs.writeFileSync, 'package.json', `{
   "scripts": {
     "preversion": "${SCRIPT_PREVERSION}",
     "version": "${SCRIPT_VERSION} --file changelog.md",
@@ -144,8 +139,7 @@ describe('init', () => {
     const result = init();
 
     assert.isTrue(result);
-    assert.calledOnce(fs.writeFileSync);
-    assert.calledWith(fs.writeFileSync, 'package.json', `{
+    assert.calledOnceWith(fs.writeFileSync, 'package.json', `{
   "homepage": "https://github.com/javascript-studio/studio-changes",
   "scripts": {
     "preversion": "${SCRIPT_PREVERSION}",
@@ -162,8 +156,7 @@ describe('init', () => {
     const result = init({ commits: 'https://javascript.studio' });
 
     assert.isTrue(result);
-    assert.calledOnce(fs.writeFileSync);
-    assert.calledWith(fs.writeFileSync, 'package.json', `{
+    assert.calledOnceWith(fs.writeFileSync, 'package.json', `{
   "scripts": {
     "preversion": "${SCRIPT_PREVERSION}",
     "version": "${SCRIPT_VERSION} --commits https://javascript.studio",
@@ -181,8 +174,7 @@ describe('init', () => {
     const result = init({ commits: true }); // no argument provided, but present
 
     assert.isTrue(result);
-    assert.calledOnce(fs.writeFileSync);
-    assert.calledWith(fs.writeFileSync, 'package.json', `{
+    assert.calledOnceWith(fs.writeFileSync, 'package.json', `{
   "homepage": "https://github.com/javascript-studio/studio-changes",
   "scripts": {
     "preversion": "${SCRIPT_PREVERSION}",
@@ -213,8 +205,7 @@ describe('init', () => {
     });
 
     assert.isTrue(result);
-    assert.calledOnce(fs.writeFileSync);
-    assert.calledWith(fs.writeFileSync, 'package.json', `{
+    assert.calledOnceWith(fs.writeFileSync, 'package.json', `{
   "scripts": {
     "preversion": "${SCRIPT_PREVERSION}",
     "version": "${SCRIPT_VERSION} --file changelog.md --commits https://studio",
@@ -232,8 +223,7 @@ describe('init', () => {
     const result = init({ commits: 'https://javascript.studio' });
 
     assert.isTrue(result);
-    assert.calledOnce(fs.writeFileSync);
-    assert.calledWith(fs.writeFileSync, 'package.json', `{
+    assert.calledOnceWith(fs.writeFileSync, 'package.json', `{
   "homepage": "https://github.com/javascript-studio/studio-changes",
   "scripts": {
     "preversion": "${SCRIPT_PREVERSION}",
@@ -252,8 +242,7 @@ describe('init', () => {
     const result = init({ file: 'changelog.md' });
 
     assert.isTrue(result);
-    assert.calledOnce(fs.writeFileSync);
-    assert.calledWith(fs.writeFileSync, 'package.json', `{
+    assert.calledOnceWith(fs.writeFileSync, 'package.json', `{
   "homepage": "https://github.com/javascript-studio/studio-changes",
   "scripts": {
     "preversion": "${SCRIPT_PREVERSION}",
