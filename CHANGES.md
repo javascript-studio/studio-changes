@@ -1,15 +1,27 @@
 # Changes
 
+## 1.6.1
+
+- 🐛 [`f9587e4`](https://github.com/javascript-studio/studio-changes/commit/f9587e402345b7a4beb57d262d1af10eacede5ec)
+  Fix markdown rendering of lists with blockquotes
+    >
+    > Commit body messages used to be framed with blank lines without the
+    > leading `>` which was only used before lines with text. With this
+    > change, these empty lines also receive a leading `>`. Without this, the
+    > rendered HTML would contain a `<p>` tag in each `<li>` regardless of
+    > whether it contained a blockquote or not.
+    >
+
 ## 1.6.0
 
 - 🍏 [`5a7b81a`](https://github.com/javascript-studio/studio-changes/commit/5a7b81a40b87adc9566bbd9b869833eec352acfc)
   Make `--init` homepage aware
-
+    >
     > When a "homepage" property is present in the `package.json`, the
     > `--commits` flag is added to the `changes` command. If `--commits URL`
     > is explicitly specified, that URL is used, regardless of whether a
     > homepage is configured.
-
+    >
 - ✨ [`b63f97f`](https://github.com/javascript-studio/studio-changes/commit/b63f97ff143bf7b4238e88c29944ce7609b273b1)
   Use `assert.calledOnceWith`
 - ✨ [`26d18c2`](https://github.com/javascript-studio/studio-changes/commit/26d18c27384409d996954df34bbe60521d60dc63)
@@ -58,10 +70,10 @@ $ changes --tag '${name}@${version}'
 ```
 
 - 🍏 Custom git tag format support (Pat Cavit)
-
+    >
     > Supports the parsed version from `CHANGES.md` as `${version}` along w/
     > any other string-compatible key in `package.json`.
-
+    >
 - 📚 Add `npx` invocation examples
 
 [lerna]: https://github.com/lerna/lerna
@@ -84,17 +96,18 @@ Indentations are preserved, existing scripts will not be touched, and if a
 ## 1.2.0
 
 - 🍏 Quote commit body (#10)
-
+    >
     > Render commit bodies as markdown quotes to better group long commit
     > messages.
+    >
 
 ## 1.1.0
 
 🍏 Blade Barringer [added two command line options][pr6]:
 
-  - `--file` or `-f` allows to configure the changelog file name. It defaults
-    to `CHANGES.md` as before.
-  - `--help` or `-h` displays a help message.
+- `--file` or `-f` allows to configure the changelog file name. It defaults to
+  `CHANGES.md` as before.
+- `--help` or `-h` displays a help message.
 
 🍏 If the current version number is found in the changelog, the changes command
 exits with code 1. In addition, it will now also print any outstanding commits.
