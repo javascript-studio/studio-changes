@@ -113,9 +113,9 @@ describe('changes', () => {
 
     assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n'
-      + '- Inception\n\n    > Foo Bar Doo\n\n'
+      + '- Inception\n    >\n    > Foo Bar Doo\n    >\n'
       + '- Other (Dude)\n'
-      + '- Third (Person)\n\n    > Does\n    > stuff\n');
+      + '- Third (Person)\n    >\n    > Does\n    > stuff\n    >\n');
   });
 
   it('keeps body with two paragraphs together', () => {
@@ -126,8 +126,8 @@ describe('changes', () => {
     changes.write();
 
     assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
-      '# Changes\n\n## 1.0.0\n\n'
-      + '- Inception\n\n    > Foo\n    >\n    > Bar\n');
+      '# Changes\n\n## 1.0.0\n\n- Inception\n'
+      + '    >\n    > Foo\n    >\n    > Bar\n    >\n');
   });
 
   it('keeps body with three paragraphs together', () => {
@@ -138,8 +138,8 @@ describe('changes', () => {
     changes.write();
 
     assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
-      '# Changes\n\n## 1.0.0\n\n'
-      + '- Inception\n\n    > Foo\n    >\n    > Bar\n    >\n    > Doo\n');
+      '# Changes\n\n## 1.0.0\n\n- Inception\n'
+      + '    >\n    > Foo\n    >\n    > Bar\n    >\n    > Doo\n    >\n');
   });
 
   it('properly indents lists', () => {
@@ -150,8 +150,8 @@ describe('changes', () => {
     changes.write();
 
     assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
-      '# Changes\n\n## 1.0.0\n\n'
-      + '- Inception\n\n    > - Foo\n    > - Bar\n    > - Doo\n');
+      '# Changes\n\n## 1.0.0\n\n- Inception\n'
+      + '    >\n    > - Foo\n    > - Bar\n    > - Doo\n    >\n');
   });
 
   it('properly indents list with multiline entry', () => {
@@ -162,8 +162,8 @@ describe('changes', () => {
     changes.write();
 
     assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
-      '# Changes\n\n## 1.0.0\n\n'
-      + '- Inception\n\n    > - Foo\n    >   next line\n    > - Bar\n');
+      '# Changes\n\n## 1.0.0\n\n- Inception\n'
+      + '    >\n    > - Foo\n    >   next line\n    > - Bar\n    >\n');
   });
 
   it('fails if changes file has not the right format', () => {
@@ -220,7 +220,7 @@ describe('changes', () => {
     const state = changes.write();
 
     assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md', '# Changes\r\n\r\n'
-      + '## 1.0.0\r\n\r\n- JavaScript\r\n\r\n    > What else?\r\n\r\n'
+      + '## 1.0.0\r\n\r\n- JavaScript\r\n    >\r\n    > What else?\r\n\r\n'
       + '## 0.0.1\r\n\r\n- Inception\r\n');
     assert.calledOnce($.execSync);
     assert.calledWithMatch($.execSync, 'git log v0.0.1..HEAD');
