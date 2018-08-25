@@ -78,6 +78,42 @@ describe('changes', () => {
       '# Changes\n\n## 1.0.0\n\n- Inception\n');
   });
 
+  function verifyAuthorRemoval(author) {
+    packageJson({ name: '@studio/changes', version: '1.0.0', author });
+    missingChanges();
+    setLog('» Inception (Studio)\n\n\n');
+
+    changes.write();
+
+    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
+      '# Changes\n\n## 1.0.0\n\n- Inception\n');
+  }
+
+  it('removes package author (with homepage)', () => {
+    verifyAuthorRemoval('Studio (https://javascript.studio)');
+  });
+
+  it('removes package author (without email or homepage)', () => {
+    verifyAuthorRemoval('Studio');
+  });
+
+  it('removes package author (with email and homepage)', () => {
+    verifyAuthorRemoval('Studio <support@javascript.studio> '
+      + '(https://javascript.studio)');
+  });
+
+  it('removes package author (with homepage and email)', () => {
+    verifyAuthorRemoval('Studio (https://javascript.studio) '
+      + '<support@javascript.studio>');
+  });
+
+  it('removes package author (with object)', () => {
+    verifyAuthorRemoval({
+      name: 'Studio',
+      email: 'support@javascript.studio'
+    });
+  });
+
   it('add commit log to existing changes file', () => {
     packageJson();
     const initial = '# Changes\n\n## 0.1.0\n\nSome foo.\n';
@@ -255,24 +291,6 @@ describe('changes', () => {
     assert.calledWithMatch($.execSync,
       'git log @studio/changes@0.1.0..HEAD');
     assert.equals(state.previous, initial);
-  });
-
-  it('works with "author" object', () => {
-    packageJson({
-      name: '@studio/changes',
-      version: '1.0.0',
-      author: {
-        name: 'Studio',
-        email: 'support@javascript.studio'
-      }
-    });
-    missingChanges();
-    setLog('» Inception (Studio)\n\n\n');
-
-    changes.write();
-
-    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
-      '# Changes\n\n## 1.0.0\n\n- Inception\n');
   });
 
   it('adds commits with specified base', () => {
