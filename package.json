@@ -12,7 +12,7 @@
     "watch": "mocha --watch",
     "posttest": "npm run lint",
     "preversion": "npm test",
-    "version": "bin/cmd.js -c",
+    "version": "bin/cmd.js -c --footer",
     "postversion": "git push --follow-tags && npm publish"
   },
   "keywords": [
@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "@studio/editor": "^1.1.1",
+    "@studio/json-request": "^3.0.0",
     "detect-indent": "^5.0.0",
     "minimist": "^1.2.0"
   },

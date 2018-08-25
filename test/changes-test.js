@@ -4,6 +4,7 @@
 const fs = require('fs');
 const $ = require('child_process');
 const { assert, refute, sinon } = require('@sinonjs/referee-sinon');
+const github = require('../lib/github');
 const changes = require('..');
 
 describe('changes', () => {
@@ -18,6 +19,8 @@ describe('changes', () => {
 
   afterEach(() => {
     sinon.restore();
+    delete process.env.GIT_AUTHOR_NAME;
+    delete process.env.GIT_AUTHOR_EMAIL;
   });
 
   function packageJson(json) {
@@ -45,8 +48,12 @@ describe('changes', () => {
     packageJson();
     missingChanges();
     setLog('» Inception (That Dude)\n\n\n');
+    let state;
 
-    const state = changes.write();
+    changes.write((err, res) => {
+      assert.isNull(err);
+      state = res;
+    });
 
     assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n- Inception (That Dude)\n');
@@ -59,8 +66,12 @@ describe('changes', () => {
     packageJson();
     missingChanges();
     setLog('» Inception (That Dude)\n\n\n');
+    let state;
 
-    const state = changes.write({ changes_file: 'foo.txt' });
+    changes.write({ changes_file: 'foo.txt' }, (err, res) => {
+      assert.isNull(err);
+      state = res;
+    });
 
     assert.calledOnceWith(fs.writeFileSync, 'foo.txt',
       '# Changes\n\n## 1.0.0\n\n- Inception (That Dude)\n');
@@ -119,8 +130,12 @@ describe('changes', () => {
     const initial = '# Changes\n\n## 0.1.0\n\nSome foo.\n';
     setChanges(initial);
     setLog('» Inception (Studio)\n\n\n');
+    let state;
 
-    const state = changes.write();
+    changes.write((err, res) => {
+      assert.isNull(err);
+      state = res;
+    });
 
     assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n- Inception\n\n## 0.1.0\n\nSome foo.\n');
@@ -252,8 +267,12 @@ describe('changes', () => {
     const initial = '# Changes\r\n\r\n## 0.0.1\r\n\r\n- Inception\r\n';
     setChanges(initial);
     setLog('» JavaScript (Studio)\n\nWhat else?\n\n\n');
+    let state;
 
-    const state = changes.write();
+    changes.write((err, res) => {
+      assert.isNull(err);
+      state = res;
+    });
 
     assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md', '# Changes\r\n\r\n'
       + '## 1.0.0\r\n\r\n- JavaScript\r\n    >\r\n    > What else?\r\n\r\n'
@@ -280,9 +299,13 @@ describe('changes', () => {
     const initial = '# Changes\n\n## 0.1.0\n\nSome foo.\n';
     setChanges(initial);
     setLog('» Inception (Studio)\n\n\n');
+    let state;
 
-    const state = changes.write({
+    changes.write({
       tag_format: '${name}@${version}'
+    }, (err, res) => {
+      assert.isNull(err);
+      state = res;
     });
 
     assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
@@ -369,4 +392,67 @@ describe('changes', () => {
       + 'studio-changes/foo/%H)«  %s');
   });
 
+  function today() {
+    return new Date().toISOString().split('T')[0];
+  }
+
+  it('generates footer without author', () => {
+    packageJson();
+    missingChanges();
+    setLog('» Inception (Studio)\n\n\n');
+
+    changes.write({ footer: true });
+
+    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
+      '# Changes\n\n## 1.0.0\n\n- Inception\n\n'
+      + `_Released on ${today()}._\n`);
+  });
+
+  it('generates footer with author author without link', () => {
+    process.env.GIT_AUTHOR_NAME = 'Maximilian Antoni';
+    packageJson();
+    missingChanges();
+    setLog('» Inception (Studio)\n\n\n');
+
+    changes.write({ footer: true });
+
+    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
+      '# Changes\n\n## 1.0.0\n\n- Inception\n\n'
+      + `_Released by Maximilian Antoni on ${today()}._\n`);
+  });
+
+  it('generates footer with author author with github homepage link', () => {
+    sinon.replace(github, 'fetchUserHomepage', sinon.fake.yields(null,
+      'https://github.com/mantoni'));
+    process.env.GIT_AUTHOR_NAME = 'Maximilian Antoni';
+    process.env.GIT_AUTHOR_EMAIL = 'mail@maxantoni.de';
+    packageJson();
+    missingChanges();
+    setLog('» Inception (Studio)\n\n\n');
+
+    changes.write({ footer: true });
+
+    assert.calledOnceWith(github.fetchUserHomepage, 'mail@maxantoni.de');
+    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
+      '# Changes\n\n## 1.0.0\n\n- Inception\n\n'
+      + '_Released by [Maximilian Antoni](https://github.com/mantoni) '
+      + `on ${today()}._\n`);
+  });
+
+  it('fails if github homepage link can not be retrieved', () => {
+    sinon.replace(github, 'fetchUserHomepage',
+      sinon.fake.yields(new Error('Oh noes!')));
+    process.env.GIT_AUTHOR_NAME = 'Maximilian Antoni';
+    process.env.GIT_AUTHOR_EMAIL = 'mail@maxantoni.de';
+    packageJson();
+    missingChanges();
+    setLog('» Inception (Studio)\n\n\n');
+
+    changes.write({ footer: true });
+
+    assert.calledWith(console.error,
+      'Failed to fetch GitHub homepage for mail@maxantoni.de: Error: Oh noes!');
+    assert.calledOnceWith(process.exit, 1);
+    refute.called(fs.writeFileSync);
+  });
 });
