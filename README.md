@@ -1,10 +1,23 @@
-# Studio Changes
-
-[![Build Status]](https://travis-ci.org/javascript-studio/studio-changes)
-[![SemVer]](http://semver.org)
-[![License]](https://github.com/javascript-studio/studio-changes/blob/master/LICENSE)
-
-📦 Generate a changelog as part of the [npm version command][1].
+<h1 align="center">
+  Studio Changes
+</h1>
+<p align="center">
+  📦 Generate a changelog as part of the <a href="https://docs.npmjs.com/cli/version">npm version command</a>
+</p>
+<p align="center">
+  <a href="https://travis-ci.org/javascript-studio/studio-changes">
+    <img src="https://img.shields.io/travis/javascript-studio/studio-changes/master.svg" alt="Build Status">
+  </a>
+  <a href="https://www.npmjs.com/package/@studio/changes">
+    <img src="https://img.shields.io/npm/v/@studio/changes.svg" alt="npm Version">
+  </a>
+  <a href="https://semver.org">
+    <img src="https://img.shields.io/:semver-%E2%9C%93-blue.svg" alt="SemVer">
+  </a>
+  <a href="https://github.com/javascript-studio/studio-changes/blob/master/LICENSE">
+    <img src="https://img.shields.io/npm/l/@studio/changes.svg" alt="License">
+  </a>
+</p>
 
 ## Usage
 
@@ -43,7 +56,7 @@ The scripts can also be added with `changes --init`, if they do not exist yet:
 $ node_modules/.bin/changes --init
 ```
 
-Or with [npx][2]:
+Or with [npx][1]:
 
 ```bash
 $ npx changes --init
@@ -89,10 +102,6 @@ $ npx changes
 
 MIT
 
-<div align="center">Made with ❤️ on 🌍</div>
+<p align="center">Made with ❤️ on 🌍<p>
 
-[1]: https://docs.npmjs.com/cli/version
-[2]: https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b
-[Build Status]: https://img.shields.io/travis/javascript-studio/studio-changes/master.svg
-[SemVer]: https://img.shields.io/:semver-%E2%9C%93-brightgreen.svg
-[License]: https://img.shields.io/npm/l/@studio/changes.svg
+[1]: https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b
