@@ -1,5 +1,10 @@
 # Changes
 
+## 1.6.2
+
+- 🐛 [`5076735`](https://github.com/javascript-studio/studio-changes/commit/5076735e5a1f81172371438f5af57923bf0ac688)
+  Fix author string parsing
+
 ## 1.6.1
 
 - 🐛 [`f9587e4`](https://github.com/javascript-studio/studio-changes/commit/f9587e402345b7a4beb57d262d1af10eacede5ec)
