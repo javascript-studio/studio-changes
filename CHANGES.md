@@ -1,5 +1,24 @@
 # Changes
 
+## 1.7.0
+
+A new `--footer` option can be used to generate a footer like the one below.
+
+- 🍏 [`25d84e3`](https://github.com/javascript-studio/studio-changes/commit/25d84e3473e7f79c7e8c1d20d8310cf8c3b42e9d)
+  Generate a footer with `--footer`
+- ✨ [`2905ca8`](https://github.com/javascript-studio/studio-changes/commit/2905ca844df389974c5aa633587525260b81045e)
+  Dogfood `--footer`
+- ✨ [`6a3cecf`](https://github.com/javascript-studio/studio-changes/commit/6a3cecf281fe009132c415501a8817f11a8c52ce)
+  Refactor `changelog` out of `changes`
+- ✨ [`34c7ffb`](https://github.com/javascript-studio/studio-changes/commit/34c7ffbd0e0e81464932025cab5513aac6b1f94e)
+  Refactor `changes.write` to accept a callback
+- 📚 [`1a2c5e1`](https://github.com/javascript-studio/studio-changes/commit/1a2c5e18cd734eacf7015338910dca16f9b27c3c)
+  New readme header
+- 📚 [`fea44b8`](https://github.com/javascript-studio/studio-changes/commit/fea44b8bc3c8047a940e31ada751e5383aaf784d)
+  Add travis config and readme badges
+
+_Released by [Maximilian Antoni](https://github.com/mantoni) on 2018-08-25._
+
 ## 1.6.2
 
 - 🐛 [`5076735`](https://github.com/javascript-studio/studio-changes/commit/5076735e5a1f81172371438f5af57923bf0ac688)
