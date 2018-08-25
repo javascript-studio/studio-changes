@@ -45,8 +45,12 @@ describe('changes', () => {
     packageJson();
     missingChanges();
     setLog('» Inception (That Dude)\n\n\n');
+    let state;
 
-    const state = changes.write();
+    changes.write((err, res) => {
+      assert.isNull(err);
+      state = res;
+    });
 
     assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n- Inception (That Dude)\n');
@@ -59,8 +63,12 @@ describe('changes', () => {
     packageJson();
     missingChanges();
     setLog('» Inception (That Dude)\n\n\n');
+    let state;
 
-    const state = changes.write({ changes_file: 'foo.txt' });
+    changes.write({ changes_file: 'foo.txt' }, (err, res) => {
+      assert.isNull(err);
+      state = res;
+    });
 
     assert.calledOnceWith(fs.writeFileSync, 'foo.txt',
       '# Changes\n\n## 1.0.0\n\n- Inception (That Dude)\n');
@@ -119,8 +127,12 @@ describe('changes', () => {
     const initial = '# Changes\n\n## 0.1.0\n\nSome foo.\n';
     setChanges(initial);
     setLog('» Inception (Studio)\n\n\n');
+    let state;
 
-    const state = changes.write();
+    changes.write((err, res) => {
+      assert.isNull(err);
+      state = res;
+    });
 
     assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
       '# Changes\n\n## 1.0.0\n\n- Inception\n\n## 0.1.0\n\nSome foo.\n');
@@ -252,8 +264,12 @@ describe('changes', () => {
     const initial = '# Changes\r\n\r\n## 0.0.1\r\n\r\n- Inception\r\n';
     setChanges(initial);
     setLog('» JavaScript (Studio)\n\nWhat else?\n\n\n');
+    let state;
 
-    const state = changes.write();
+    changes.write((err, res) => {
+      assert.isNull(err);
+      state = res;
+    });
 
     assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md', '# Changes\r\n\r\n'
       + '## 1.0.0\r\n\r\n- JavaScript\r\n    >\r\n    > What else?\r\n\r\n'
@@ -280,9 +296,13 @@ describe('changes', () => {
     const initial = '# Changes\n\n## 0.1.0\n\nSome foo.\n';
     setChanges(initial);
     setLog('» Inception (Studio)\n\n\n');
+    let state;
 
-    const state = changes.write({
+    changes.write({
       tag_format: '${name}@${version}'
+    }, (err, res) => {
+      assert.isNull(err);
+      state = res;
     });
 
     assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',

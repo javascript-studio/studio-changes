@@ -54,15 +54,20 @@ if (argv.commits) {
 }
 
 // Write the commit history to the changes file
-const state = changes.write(options);
-
-// Let the user edit the changes
-editor(state.changes_file, (code) => {
-  if (code === 0) {
-    // Add the changes file to git
-    changes.add(state);
-  } else {
-    // Roll back
-    changes.abort(state);
+changes.write(options, (err, state) => {
+  if (err) {
+    process.exit(1);
+    return;
   }
+
+  // Let the user edit the changes
+  editor(state.changes_file, (code) => {
+    if (code === 0) {
+      // Add the changes file to git
+      changes.add(state);
+    } else {
+      // Roll back
+      changes.abort(state);
+    }
+  });
 });
