@@ -1,5 +1,9 @@
 # Studio Changes
 
+[![Build Status]](https://travis-ci.org/javascript-studio/studio-changes)
+[![SemVer]](http://semver.org)
+[![License]](https://github.com/javascript-studio/studio-changes/blob/master/LICENSE)
+
 📦 Generate a changelog as part of the [npm version command][1].
 
 ## Usage
@@ -89,3 +93,6 @@ MIT
 
 [1]: https://docs.npmjs.com/cli/version
 [2]: https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b
+[Build Status]: https://img.shields.io/travis/javascript-studio/studio-changes/master.svg
+[SemVer]: https://img.shields.io/:semver-%E2%9C%93-brightgreen.svg
+[License]: https://img.shields.io/npm/l/@studio/changes.svg
