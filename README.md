@@ -5,17 +5,17 @@
   📦 Generate a changelog as part of the <a href="https://docs.npmjs.com/cli/version">npm version command</a>
 </p>
 <p align="center">
-  <a href="https://travis-ci.org/javascript-studio/studio-changes">
-    <img src="https://img.shields.io/travis/javascript-studio/studio-changes/master.svg" alt="Build Status">
-  </a>
   <a href="https://www.npmjs.com/package/@studio/changes">
     <img src="https://img.shields.io/npm/v/@studio/changes.svg" alt="npm Version">
   </a>
   <a href="https://semver.org">
     <img src="https://img.shields.io/:semver-%E2%9C%93-blue.svg" alt="SemVer">
   </a>
-  <a href="https://github.com/javascript-studio/studio-changes/blob/master/LICENSE">
-    <img src="https://img.shields.io/npm/l/@studio/changes.svg" alt="License">
+  <a href="https://travis-ci.org/javascript-studio/studio-changes">
+    <img src="https://img.shields.io/travis/javascript-studio/studio-changes/master.svg" alt="Build Status">
+  </a>
+  <a href="https://opensource.org/licenses/MIT">
+    <img src="https://img.shields.io/badge/License-MIT-brightgreen.svg" alt="License">
   </a>
 </p>
 
