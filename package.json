@@ -43,7 +43,7 @@
     "@sinonjs/referee-sinon": "^4.1.0",
     "@studio/eslint-config": "^1.0.2",
     "eslint": "^6.1.0",
-    "mocha": "^5.2.0"
+    "mocha": "^6.2.0"
   },
   "repository": {
     "type": "git",
