@@ -71,7 +71,7 @@ indentation style will be preserved.
 - `--commits`, `-c`: Generate links to commits using the given URL as base. If
   no URL is given it defaults to `${homepage}/commit` using the homepage
   configured in the `package.json`.
-- `--footer`: Generate a footer with the gut author and release date. The
+- `--footer`: Generate a footer with the git author and release date. The
   author name is taken from `$GIT_AUTHOR_NAME` and `$GIT_AUTHOR_EMAIL` is used
   to find the authors GitHub profile page.
 - `--file`, `-f`: Specify the name of the changelog file. Defaults to
