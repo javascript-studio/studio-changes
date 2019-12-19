@@ -356,7 +356,73 @@ describe('changes', () => {
       + 'studio-changes/commit/%H)«  %s');
   });
 
-  it('fails if --commits but missing "homepage" in package.json', () => {
+  it('resolves base from package.json "repository" field', () => {
+    packageJson({
+      name: '@studio/changes',
+      version: '1.0.0',
+      repository: {
+        type: 'git',
+        url: 'https://github.com/javascript-studio/studio-changes.git'
+      }
+    });
+    missingChanges();
+    setLog('» Test');
+
+    changes.write({
+      commits: true
+    });
+
+    assert.calledWithMatch($.execSync,
+      'git log  --format="» [\\`%h\\`](https://github.com/javascript-studio/'
+      + 'studio-changes/commit/%H)«  %s');
+  });
+
+  it(`ignores package.json "repository" field and uses "homepage" instead if not
+      type "git"`, () => {
+    packageJson({
+      name: '@studio/changes',
+      version: '1.0.0',
+      repository: {
+        type: 'foo',
+        url: 'https://github.com/mantoni/eslint_d.js.git'
+      },
+      homepage: 'https://github.com/javascript-studio/studio-changes'
+    });
+    missingChanges();
+    setLog('» Test');
+
+    changes.write({
+      commits: true
+    });
+
+    assert.calledWithMatch($.execSync,
+      'git log  --format="» [\\`%h\\`](https://github.com/javascript-studio/'
+      + 'studio-changes/commit/%H)«  %s');
+  });
+
+  it('fails if repository info cannot be parsed', () => {
+    packageJson({
+      name: '@studio/changes',
+      version: '1.0.0',
+      repository: {
+        type: 'git',
+        url: 'https://foo.com/mantoni/eslint_d.js.git'
+      }
+    });
+    missingChanges();
+    setLog('» Test');
+
+    changes.write({
+      commits: true
+    });
+
+    assert.calledWith(console.error,
+      'Failed to parse "repository" from package.json\n');
+    assert.calledOnceWith(process.exit, 1);
+  });
+
+  it(`fails if --commits but missing "repository" and "homepage" in
+      package.json`, () => {
     packageJson({
       name: '@studio/changes',
       version: '1.0.0'
@@ -366,8 +432,8 @@ describe('changes', () => {
       commits: true
     });
 
-    assert.calledWith(console.error,
-      '--commits option requires base URL or "homepage" in package.json\n');
+    assert.calledWith(console.error, '--commits option requires base URL, '
+      + '"repository" or "homepage" in package.json\n');
     assert.calledOnceWith(process.exit, 1);
   });
 

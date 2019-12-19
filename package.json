@@ -37,6 +37,7 @@
     "@studio/editor": "^1.1.1",
     "@studio/json-request": "^3.0.0",
     "detect-indent": "^5.0.0",
+    "hosted-git-info": "^3.0.2",
     "minimist": "^1.2.0"
   },
   "devDependencies": {
