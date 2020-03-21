@@ -1,5 +1,14 @@
 # Changes
 
+## 2.0.1
+
+- 🛡 [`ce7b0a7`](https://github.com/javascript-studio/studio-changes/commit/ce7b0a7296544b48e1929e5fb24bd7cd29322612)
+  Bump acorn from 6.2.1 to 6.4.1 (dependabot[bot])
+- 🛡 [`b9efd0b`](https://github.com/javascript-studio/studio-changes/commit/b9efd0bc2113686e154d79bba9b99422ef565f5d)
+  Bump minimist from 1.2.0 to 1.2.2 (dependabot[bot])
+
+_Released by [Maximilian Antoni](https://github.com/mantoni) on 2020-03-21._
+
 ## 2.0.0
 
 - 💥 [`001a065`](https://github.com/javascript-studio/studio-changes/commit/001a0656b9f1a01f1f838a59e204caeebfdf3745)
