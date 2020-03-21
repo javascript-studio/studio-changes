@@ -25,27 +25,10 @@ _Released by [Maximilian Antoni](https://github.com/mantoni) on 2020-03-21._
   Fix typo (Morgan Roderick)
 - 🐛 [`f8efb51`](https://github.com/javascript-studio/studio-changes/commit/f8efb51c93a5b3a44ec1da568ce7769d5c69fa26)
   Bump eslint-utils from 1.3.1 to 1.4.2 (dependabot[bot])
-    >
-    > Bumps [eslint-utils](https://github.com/mysticatea/eslint-utils) from 1.3.1 to 1.4.2.
-    > - [Release notes](https://github.com/mysticatea/eslint-utils/releases)
-    > - [Commits](https://github.com/mysticatea/eslint-utils/compare/v1.3.1...v1.4.2)
-    >
-    > Signed-off-by: dependabot[bot] <support@github.com>
 - 🐛 [`9d16e02`](https://github.com/javascript-studio/studio-changes/commit/9d16e0211028ef872cd64be3f998f8f5c0bd9758)
   Bump lodash from 4.17.10 to 4.17.15 (dependabot[bot])
-    >
-    > Bumps [lodash](https://github.com/lodash/lodash) from 4.17.10 to 4.17.15.
-    > - [Release notes](https://github.com/lodash/lodash/releases)
-    > - [Commits](https://github.com/lodash/lodash/compare/4.17.10...4.17.15)
-    >
-    > Signed-off-by: dependabot[bot] <support@github.com>
 - 🐛 [`c414ecc`](https://github.com/javascript-studio/studio-changes/commit/c414eccdb0851aa215cf1e5aec2085a0deb4e2c2)
   Bump js-yaml from 3.12.0 to 3.13.1 (dependabot[bot])
-    >
-    > Bumps [js-yaml](https://github.com/nodeca/js-yaml) from 3.12.0 to 3.13.1.
-    > - [Release notes](https://github.com/nodeca/js-yaml/releases)
-    > - [Changelog](https://github.com/nodeca/js-yaml/blob/master/CHANGELOG.md)
-    > - [Commits](https://github.com/nodeca/js-yaml/compare/3.12.0...3.13.1)
 - ✨ [`6489a83`](https://github.com/javascript-studio/studio-changes/commit/6489a83f7736e77dc9f9ac706b815e3a2b78d7d2)
   Upgrade `@sinonjs/referee-sinon` to v5
 - ✨ [`14e421e`](https://github.com/javascript-studio/studio-changes/commit/14e421ed98e7f90cd0da50d000da59e2892a7a9e)
