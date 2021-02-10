@@ -87,5 +87,4 @@ describe('github', () => {
     assert.calledOnce(callback);
     assert.calledWithMatch(callback, null, html_url);
   });
-
 });
