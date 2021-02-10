@@ -7,7 +7,7 @@
   },
   "main": "lib/changes.js",
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint . && prettier --check .",
     "test": "mocha",
     "watch": "mocha --watch",
     "posttest": "npm run lint",
