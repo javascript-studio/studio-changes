@@ -30,12 +30,16 @@
 ## Install
 
 ```bash
-$ npm install @studio/changes --save-dev
+❯ npm install @studio/changes --save-dev
 ```
 
 ## Configure
 
-Add this to your `package.json`:
+```bash
+❯ npx changes --init
+```
+
+This will add the following to your `package.json`:
 
 ```json
 {
@@ -43,27 +47,9 @@ Add this to your `package.json`:
     "preversion": "npm test",
     "version": "changes",
     "postversion": "git push --follow-tags && npm publish"
-  },
-  "devDependencies": {
-    "@studio/changes": "^1.0.0"
   }
 }
 ```
-
-The scripts can also be added with `changes --init`, if they do not exist yet:
-
-```bash
-$ node_modules/.bin/changes --init
-```
-
-Or with [npx][1]:
-
-```bash
-$ npx changes --init
-```
-
-If the "version" script already exists, this has no effect. Existing file
-indentation style will be preserved.
 
 ## Options
 
@@ -83,20 +69,12 @@ indentation style will be preserved.
 
 Configure your preferred editor with the `$EDITOR` environment variable.
 
-## Preview changes for next release
+## Preview next release
 
-If the current version in your `package.json` is already in the changelog, the
-`changes` command aborts and shows the unreleased commits. Preview the release
-notes for the next release like this:
+Preview the release notes for the next release by running:
 
 ```bash
-$ node_modules/.bin/changes
-```
-
-Or with `npx`:
-
-```bash
-$ npx changes
+❯ npx changes
 ```
 
 ![](https://javascript.studio/assets/changes-1.0.gif)
