@@ -48,6 +48,8 @@
     "eslint": "^7.19.0",
     "eslint-plugin-mocha": "^8.0.0",
     "eslint-plugin-node": "^11.1.0",
+    "husky": "^5.0.9",
+    "lint-staged": "^10.5.4",
     "mocha": "^8.2.1",
     "prettier": "^2.2.1"
   },
@@ -61,5 +63,14 @@
     "LICENSE",
     "README.md"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": "eslint --fix",
+    "*": "prettier --write"
+  }
 }
