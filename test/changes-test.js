@@ -8,7 +8,6 @@ const github = require('../lib/github');
 const changes = require('..');
 
 describe('changes', () => {
-
   beforeEach(() => {
     sinon.stub(fs, 'readFileSync');
     sinon.stub(fs, 'writeFileSync');
@@ -24,12 +23,16 @@ describe('changes', () => {
   });
 
   function packageJson(json) {
-    fs.readFileSync.withArgs('package.json').returns(JSON.stringify(json || {
-      name: '@studio/changes',
-      version: '1.0.0',
-      author: 'Studio <support@javascript.studio>',
-      homepage: 'https://github.com/javascript-studio/studio-changes'
-    }));
+    fs.readFileSync.withArgs('package.json').returns(
+      JSON.stringify(
+        json || {
+          name: '@studio/changes',
+          version: '1.0.0',
+          author: 'Studio <support@javascript.studio>',
+          homepage: 'https://github.com/javascript-studio/studio-changes'
+        }
+      )
+    );
   }
 
   function missingChanges() {
@@ -55,8 +58,11 @@ describe('changes', () => {
       state = res;
     });
 
-    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
-      '# Changes\n\n## 1.0.0\n\n- Inception (That Dude)\n');
+    assert.calledOnceWith(
+      fs.writeFileSync,
+      'CHANGES.md',
+      '# Changes\n\n## 1.0.0\n\n- Inception (That Dude)\n'
+    );
     assert.calledOnce($.execSync);
     assert.calledWithMatch($.execSync, 'git log  --format=');
     assert.equals(state.changes_file, 'CHANGES.md');
@@ -73,8 +79,11 @@ describe('changes', () => {
       state = res;
     });
 
-    assert.calledOnceWith(fs.writeFileSync, 'foo.txt',
-      '# Changes\n\n## 1.0.0\n\n- Inception (That Dude)\n');
+    assert.calledOnceWith(
+      fs.writeFileSync,
+      'foo.txt',
+      '# Changes\n\n## 1.0.0\n\n- Inception (That Dude)\n'
+    );
     assert.equals(state.changes_file, 'foo.txt');
   });
 
@@ -85,8 +94,11 @@ describe('changes', () => {
 
     changes.write();
 
-    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
-      '# Changes\n\n## 1.0.0\n\n- Inception\n');
+    assert.calledOnceWith(
+      fs.writeFileSync,
+      'CHANGES.md',
+      '# Changes\n\n## 1.0.0\n\n- Inception\n'
+    );
   });
 
   function verifyAuthorRemoval(author) {
@@ -96,8 +108,11 @@ describe('changes', () => {
 
     changes.write();
 
-    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
-      '# Changes\n\n## 1.0.0\n\n- Inception\n');
+    assert.calledOnceWith(
+      fs.writeFileSync,
+      'CHANGES.md',
+      '# Changes\n\n## 1.0.0\n\n- Inception\n'
+    );
   }
 
   it('removes package author (with homepage)', () => {
@@ -109,13 +124,15 @@ describe('changes', () => {
   });
 
   it('removes package author (with email and homepage)', () => {
-    verifyAuthorRemoval('Studio <support@javascript.studio> '
-      + '(https://javascript.studio)');
+    verifyAuthorRemoval(
+      'Studio <support@javascript.studio> (https://javascript.studio)'
+    );
   });
 
   it('removes package author (with homepage and email)', () => {
-    verifyAuthorRemoval('Studio (https://javascript.studio) '
-      + '<support@javascript.studio>');
+    verifyAuthorRemoval(
+      'Studio (https://javascript.studio) <support@javascript.studio>'
+    );
   });
 
   it('removes package author (with object)', () => {
@@ -137,8 +154,11 @@ describe('changes', () => {
       state = res;
     });
 
-    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
-      '# Changes\n\n## 1.0.0\n\n- Inception\n\n## 0.1.0\n\nSome foo.\n');
+    assert.calledOnceWith(
+      fs.writeFileSync,
+      'CHANGES.md',
+      '# Changes\n\n## 1.0.0\n\n- Inception\n\n## 0.1.0\n\nSome foo.\n'
+    );
     assert.calledOnce($.execSync);
     assert.calledWithMatch($.execSync, 'git log v0.1.0..HEAD');
     assert.equals(state.previous, initial);
@@ -157,16 +177,21 @@ describe('changes', () => {
   it('adds body indented on new line', () => {
     packageJson();
     missingChanges();
-    setLog('» Inception (Studio)\n\nFoo Bar Doo\n\n» Other (Dude)\n\n\n'
-      + '» Third (Person)\n\nDoes\nstuff\n\n');
+    setLog(
+      '» Inception (Studio)\n\nFoo Bar Doo\n\n» Other (Dude)\n\n\n' +
+        '» Third (Person)\n\nDoes\nstuff\n\n'
+    );
 
     changes.write();
 
-    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
-      '# Changes\n\n## 1.0.0\n\n'
-      + '- Inception\n    >\n    > Foo Bar Doo\n    >\n'
-      + '- Other (Dude)\n'
-      + '- Third (Person)\n    >\n    > Does\n    > stuff\n    >\n');
+    assert.calledOnceWith(
+      fs.writeFileSync,
+      'CHANGES.md',
+      '# Changes\n\n## 1.0.0\n\n' +
+        '- Inception\n    >\n    > Foo Bar Doo\n    >\n' +
+        '- Other (Dude)\n' +
+        '- Third (Person)\n    >\n    > Does\n    > stuff\n    >\n'
+    );
   });
 
   it('keeps body with two paragraphs together', () => {
@@ -176,9 +201,12 @@ describe('changes', () => {
 
     changes.write();
 
-    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
-      '# Changes\n\n## 1.0.0\n\n- Inception\n'
-      + '    >\n    > Foo\n    >\n    > Bar\n    >\n');
+    assert.calledOnceWith(
+      fs.writeFileSync,
+      'CHANGES.md',
+      '# Changes\n\n## 1.0.0\n\n- Inception\n' +
+        '    >\n    > Foo\n    >\n    > Bar\n    >\n'
+    );
   });
 
   it('keeps body with three paragraphs together', () => {
@@ -188,9 +216,12 @@ describe('changes', () => {
 
     changes.write();
 
-    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
-      '# Changes\n\n## 1.0.0\n\n- Inception\n'
-      + '    >\n    > Foo\n    >\n    > Bar\n    >\n    > Doo\n    >\n');
+    assert.calledOnceWith(
+      fs.writeFileSync,
+      'CHANGES.md',
+      '# Changes\n\n## 1.0.0\n\n- Inception\n' +
+        '    >\n    > Foo\n    >\n    > Bar\n    >\n    > Doo\n    >\n'
+    );
   });
 
   it('properly indents lists', () => {
@@ -200,9 +231,12 @@ describe('changes', () => {
 
     changes.write();
 
-    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
-      '# Changes\n\n## 1.0.0\n\n- Inception\n'
-      + '    >\n    > - Foo\n    > - Bar\n    > - Doo\n    >\n');
+    assert.calledOnceWith(
+      fs.writeFileSync,
+      'CHANGES.md',
+      '# Changes\n\n## 1.0.0\n\n- Inception\n' +
+        '    >\n    > - Foo\n    > - Bar\n    > - Doo\n    >\n'
+    );
   });
 
   it('properly indents list with multiline entry', () => {
@@ -212,9 +246,12 @@ describe('changes', () => {
 
     changes.write();
 
-    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
-      '# Changes\n\n## 1.0.0\n\n- Inception\n'
-      + '    >\n    > - Foo\n    >   next line\n    > - Bar\n    >\n');
+    assert.calledOnceWith(
+      fs.writeFileSync,
+      'CHANGES.md',
+      '# Changes\n\n## 1.0.0\n\n- Inception\n' +
+        '    >\n    > - Foo\n    >   next line\n    > - Bar\n    >\n'
+    );
   });
 
   it('fails if changes file has not the right format', () => {
@@ -234,8 +271,10 @@ describe('changes', () => {
 
     changes.write();
 
-    assert.calledWith(console.error,
-      'Version 1.0.0 is already in CHANGES.md\n');
+    assert.calledWith(
+      console.error,
+      'Version 1.0.0 is already in CHANGES.md\n'
+    );
     assert.calledOnceWith(process.exit, 1);
   });
 
@@ -257,8 +296,10 @@ describe('changes', () => {
 
     changes.write();
 
-    assert.calledWith(console.error,
-      'Version 1.0.0 is already in CHANGES.md\n');
+    assert.calledWith(
+      console.error,
+      'Version 1.0.0 is already in CHANGES.md\n'
+    );
     refute.calledWith(console.error, '# Changes for next release:\n');
   });
 
@@ -274,9 +315,13 @@ describe('changes', () => {
       state = res;
     });
 
-    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md', '# Changes\r\n\r\n'
-      + '## 1.0.0\r\n\r\n- JavaScript\r\n    >\r\n    > What else?\r\n\r\n'
-      + '## 0.0.1\r\n\r\n- Inception\r\n');
+    assert.calledOnceWith(
+      fs.writeFileSync,
+      'CHANGES.md',
+      '# Changes\r\n\r\n' +
+        '## 1.0.0\r\n\r\n- JavaScript\r\n    >\r\n    > What else?\r\n\r\n' +
+        '## 0.0.1\r\n\r\n- Inception\r\n'
+    );
     assert.calledOnce($.execSync);
     assert.calledWithMatch($.execSync, 'git log v0.0.1..HEAD');
     assert.equals(state.previous, initial);
@@ -289,8 +334,10 @@ describe('changes', () => {
 
     changes.write();
 
-    assert.calledWith(console.error,
-      'Version 1.0.0 is already in CHANGES.md\n');
+    assert.calledWith(
+      console.error,
+      'Version 1.0.0 is already in CHANGES.md\n'
+    );
     assert.calledOnceWith(process.exit, 1);
   });
 
@@ -301,59 +348,78 @@ describe('changes', () => {
     setLog('» Inception (Studio)\n\n\n');
     let state;
 
-    changes.write({
-      tag_format: '${name}@${version}'
-    }, (err, res) => {
-      assert.isNull(err);
-      state = res;
-    });
+    changes.write(
+      {
+        tag_format: '${name}@${version}'
+      },
+      (err, res) => {
+        assert.isNull(err);
+        state = res;
+      }
+    );
 
-    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
-      '# Changes\n\n## 1.0.0\n\n- Inception\n\n## 0.1.0\n\nSome foo.\n');
+    assert.calledOnceWith(
+      fs.writeFileSync,
+      'CHANGES.md',
+      '# Changes\n\n## 1.0.0\n\n- Inception\n\n## 0.1.0\n\nSome foo.\n'
+    );
     assert.calledOnce($.execSync);
-    assert.calledWithMatch($.execSync,
-      'git log @studio/changes@0.1.0..HEAD');
+    assert.calledWithMatch($.execSync, 'git log @studio/changes@0.1.0..HEAD');
     assert.equals(state.previous, initial);
   });
 
   it('adds commits with specified base', () => {
     packageJson();
     missingChanges();
-    setLog('» [`cbac1d0`](https://javascript.studio/commit/'
-      + 'cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)«  Message (Author)\n\n\n');
+    setLog(
+      '» [`cbac1d0`](https://javascript.studio/commit/' +
+        'cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)«  Message (Author)\n\n\n'
+    );
 
     changes.write({
       commits: 'https://javascript.studio/commit'
     });
 
-    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
-      '# Changes\n\n## 1.0.0\n\n'
-      + '- [`cbac1d0`](https://javascript.studio/commit/'
-      + 'cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)\n  Message (Author)\n');
-    assert.calledWithMatch($.execSync,
-      'git log  --format="» [\\`%h\\`](https://javascript.studio/commit/%H)'
-      + '«  %s');
+    assert.calledOnceWith(
+      fs.writeFileSync,
+      'CHANGES.md',
+      '# Changes\n\n## 1.0.0\n\n' +
+        '- [`cbac1d0`](https://javascript.studio/commit/' +
+        'cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)\n  Message (Author)\n'
+    );
+    assert.calledWithMatch(
+      $.execSync,
+      'git log  --format="» [\\`%h\\`](https://javascript.studio/commit/%H)' +
+        '«  %s'
+    );
   });
 
   it('adds commits with base from package.json homepage + /commit', () => {
     packageJson();
     missingChanges();
-    setLog('» [`cbac1d0`](https://github.com/javascript-studio/studio-changes/'
-      + 'commit/cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)«'
-      + '  Message (Author)\n\n\n');
+    setLog(
+      '» [`cbac1d0`](https://github.com/javascript-studio/studio-changes/' +
+        'commit/cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)«' +
+        '  Message (Author)\n\n\n'
+    );
 
     changes.write({
       commits: true
     });
 
-    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
-      '# Changes\n\n## 1.0.0\n\n'
-      + '- [`cbac1d0`](https://github.com/javascript-studio/studio-changes/'
-      + 'commit/cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)\n'
-      + '  Message (Author)\n');
-    assert.calledWithMatch($.execSync,
-      'git log  --format="» [\\`%h\\`](https://github.com/javascript-studio/'
-      + 'studio-changes/commit/%H)«  %s');
+    assert.calledOnceWith(
+      fs.writeFileSync,
+      'CHANGES.md',
+      '# Changes\n\n## 1.0.0\n\n' +
+        '- [`cbac1d0`](https://github.com/javascript-studio/studio-changes/' +
+        'commit/cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)\n' +
+        '  Message (Author)\n'
+    );
+    assert.calledWithMatch(
+      $.execSync,
+      'git log  --format="» [\\`%h\\`](https://github.com/javascript-studio/' +
+        'studio-changes/commit/%H)«  %s'
+    );
   });
 
   it('resolves base from package.json "repository" field', () => {
@@ -372,9 +438,11 @@ describe('changes', () => {
       commits: true
     });
 
-    assert.calledWithMatch($.execSync,
-      'git log  --format="» [\\`%h\\`](https://github.com/javascript-studio/'
-      + 'studio-changes/commit/%H)«  %s');
+    assert.calledWithMatch(
+      $.execSync,
+      'git log  --format="» [\\`%h\\`](https://github.com/javascript-studio/' +
+        'studio-changes/commit/%H)«  %s'
+    );
   });
 
   it(`ignores package.json "repository" field and uses "homepage" instead if not
@@ -395,9 +463,11 @@ describe('changes', () => {
       commits: true
     });
 
-    assert.calledWithMatch($.execSync,
-      'git log  --format="» [\\`%h\\`](https://github.com/javascript-studio/'
-      + 'studio-changes/commit/%H)«  %s');
+    assert.calledWithMatch(
+      $.execSync,
+      'git log  --format="» [\\`%h\\`](https://github.com/javascript-studio/' +
+        'studio-changes/commit/%H)«  %s'
+    );
   });
 
   it('fails if repository info cannot be parsed', () => {
@@ -416,8 +486,10 @@ describe('changes', () => {
       commits: true
     });
 
-    assert.calledWith(console.error,
-      'Failed to parse "repository" from package.json\n');
+    assert.calledWith(
+      console.error,
+      'Failed to parse "repository" from package.json\n'
+    );
     assert.calledOnceWith(process.exit, 1);
   });
 
@@ -432,30 +504,40 @@ describe('changes', () => {
       commits: true
     });
 
-    assert.calledWith(console.error, '--commits option requires base URL, '
-      + '"repository" or "homepage" in package.json\n');
+    assert.calledWith(
+      console.error,
+      '--commits option requires base URL, ' +
+        '"repository" or "homepage" in package.json\n'
+    );
     assert.calledOnceWith(process.exit, 1);
   });
 
   it('adds commits using base URL template', () => {
     packageJson();
     missingChanges();
-    setLog('» [`cbac1d0`](https://github.com/javascript-studio/studio-changes/'
-      + 'foo/cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)«'
-      + '  Message (Author)\n\n\n');
+    setLog(
+      '» [`cbac1d0`](https://github.com/javascript-studio/studio-changes/' +
+        'foo/cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)«' +
+        '  Message (Author)\n\n\n'
+    );
 
     changes.write({
       commits: '${homepage}/foo'
     });
 
-    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
-      '# Changes\n\n## 1.0.0\n\n'
-      + '- [`cbac1d0`](https://github.com/javascript-studio/studio-changes/'
-      + 'foo/cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)\n'
-      + '  Message (Author)\n');
-    assert.calledWithMatch($.execSync,
-      'git log  --format="» [\\`%h\\`](https://github.com/javascript-studio/'
-      + 'studio-changes/foo/%H)«  %s');
+    assert.calledOnceWith(
+      fs.writeFileSync,
+      'CHANGES.md',
+      '# Changes\n\n## 1.0.0\n\n' +
+        '- [`cbac1d0`](https://github.com/javascript-studio/studio-changes/' +
+        'foo/cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)\n' +
+        '  Message (Author)\n'
+    );
+    assert.calledWithMatch(
+      $.execSync,
+      'git log  --format="» [\\`%h\\`](https://github.com/javascript-studio/' +
+        'studio-changes/foo/%H)«  %s'
+    );
   });
 
   function today() {
@@ -469,9 +551,11 @@ describe('changes', () => {
 
     changes.write({ footer: true });
 
-    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
-      '# Changes\n\n## 1.0.0\n\n- Inception\n\n'
-      + `_Released on ${today()}._\n`);
+    assert.calledOnceWith(
+      fs.writeFileSync,
+      'CHANGES.md',
+      `# Changes\n\n## 1.0.0\n\n- Inception\n\n_Released on ${today()}._\n`
+    );
   });
 
   it('generates footer with author author without link', () => {
@@ -482,14 +566,20 @@ describe('changes', () => {
 
     changes.write({ footer: true });
 
-    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
-      '# Changes\n\n## 1.0.0\n\n- Inception\n\n'
-      + `_Released by Maximilian Antoni on ${today()}._\n`);
+    assert.calledOnceWith(
+      fs.writeFileSync,
+      'CHANGES.md',
+      '# Changes\n\n## 1.0.0\n\n- Inception\n\n' +
+        `_Released by Maximilian Antoni on ${today()}._\n`
+    );
   });
 
   it('generates footer with author author with github homepage link', () => {
-    sinon.replace(github, 'fetchUserHomepage', sinon.fake.yields(null,
-      'https://github.com/mantoni'));
+    sinon.replace(
+      github,
+      'fetchUserHomepage',
+      sinon.fake.yields(null, 'https://github.com/mantoni')
+    );
     process.env.GIT_AUTHOR_NAME = 'Maximilian Antoni';
     process.env.GIT_AUTHOR_EMAIL = 'mail@maxantoni.de';
     packageJson();
@@ -499,15 +589,21 @@ describe('changes', () => {
     changes.write({ footer: true });
 
     assert.calledOnceWith(github.fetchUserHomepage, 'mail@maxantoni.de');
-    assert.calledOnceWith(fs.writeFileSync, 'CHANGES.md',
-      '# Changes\n\n## 1.0.0\n\n- Inception\n\n'
-      + '_Released by [Maximilian Antoni](https://github.com/mantoni) '
-      + `on ${today()}._\n`);
+    assert.calledOnceWith(
+      fs.writeFileSync,
+      'CHANGES.md',
+      '# Changes\n\n## 1.0.0\n\n- Inception\n\n' +
+        '_Released by [Maximilian Antoni](https://github.com/mantoni) ' +
+        `on ${today()}._\n`
+    );
   });
 
   it('fails if github homepage link can not be retrieved', () => {
-    sinon.replace(github, 'fetchUserHomepage',
-      sinon.fake.yields(new Error('Oh noes!')));
+    sinon.replace(
+      github,
+      'fetchUserHomepage',
+      sinon.fake.yields(new Error('Oh noes!'))
+    );
     process.env.GIT_AUTHOR_NAME = 'Maximilian Antoni';
     process.env.GIT_AUTHOR_EMAIL = 'mail@maxantoni.de';
     packageJson();
@@ -516,8 +612,10 @@ describe('changes', () => {
 
     changes.write({ footer: true });
 
-    assert.calledWith(console.error,
-      'Failed to fetch GitHub homepage for mail@maxantoni.de: Error: Oh noes!');
+    assert.calledWith(
+      console.error,
+      'Failed to fetch GitHub homepage for mail@maxantoni.de: Error: Oh noes!'
+    );
     assert.calledOnceWith(process.exit, 1);
     refute.called(fs.writeFileSync);
   });
