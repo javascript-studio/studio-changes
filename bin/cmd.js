@@ -36,6 +36,7 @@ Options:
 }
 
 if (argv.init) {
+  // eslint-disable-next-line node/global-require
   if (require('../lib/init')()) {
     process.exit();
   }
