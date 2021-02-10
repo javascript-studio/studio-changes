@@ -36,15 +36,15 @@
   "dependencies": {
     "@studio/editor": "^1.1.1",
     "@studio/json-request": "^3.0.0",
-    "detect-indent": "^5.0.0",
-    "hosted-git-info": "^3.0.2",
-    "minimist": "^1.2.0"
+    "detect-indent": "^6.0.0",
+    "hosted-git-info": "^3.0.8",
+    "minimist": "^1.2.5"
   },
   "devDependencies": {
-    "@sinonjs/referee-sinon": "^5.0.0",
+    "@sinonjs/referee-sinon": "^8.0.1",
     "@studio/eslint-config": "^1.0.2",
-    "eslint": "^6.1.0",
-    "mocha": "^6.2.0"
+    "eslint": "^7.19.0",
+    "mocha": "^8.2.1"
   },
   "repository": {
     "type": "git",
