@@ -44,7 +44,7 @@ describe('footer', () => {
       'execSync',
       sinon.fake((cmd) => {
         if (cmd === 'git config --get user.name') {
-          return 'Maximilian Antoni\n';
+          return Buffer.from('Maximilian Antoni\n');
         }
         throw new Error();
       })
@@ -69,9 +69,9 @@ describe('footer', () => {
       'execSync',
       sinon.fake((cmd) => {
         if (cmd === 'git config --get user.name') {
-          return 'Maximilian Antoni\n';
+          return Buffer.from('Maximilian Antoni\n');
         }
-        return 'mail@maxantoni.de\n';
+        return Buffer.from('mail@maxantoni.de\n');
       })
     );
 
