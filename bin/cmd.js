@@ -59,20 +59,21 @@ if (argv.footer) {
 }
 
 // Write the commit history to the changes file
-changes.write(options, (err, state) => {
-  if (err) {
+changes
+  .write(options)
+  .then((state) => {
+    // Let the user edit the changes
+    editor(state.changes_file, (code) => {
+      if (code === 0) {
+        // Add the changes file to git
+        changes.add(state);
+      } else {
+        // Roll back
+        changes.abort(state);
+      }
+    });
+  })
+  .catch((err) => {
+    console.error(err);
     process.exit(1);
-    return;
-  }
-
-  // Let the user edit the changes
-  editor(state.changes_file, (code) => {
-    if (code === 0) {
-      // Add the changes file to git
-      changes.add(state);
-    } else {
-      // Roll back
-      changes.abort(state);
-    }
   });
-});

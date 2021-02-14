@@ -1,9 +1,8 @@
-/*eslint-env mocha*/
 'use strict';
 
 const https = require('https');
 const EventEmitter = require('events');
-const { assert, sinon } = require('@sinonjs/referee-sinon');
+const { assert, sinon, match } = require('@sinonjs/referee-sinon');
 const github = require('../lib/github');
 
 describe('github', () => {
@@ -23,9 +22,7 @@ describe('github', () => {
   });
 
   it('searches user for given email', () => {
-    const callback = sinon.fake();
-
-    github.fetchUserHomepage('mail@maxantoni.de', callback);
+    github.fetchUserHomepage('mail@maxantoni.de');
 
     assert.calledOnceWith(https.request, {
       hostname: 'api.github.com',
@@ -34,17 +31,17 @@ describe('github', () => {
     });
   });
 
-  it('yields error on timeout', () => {
-    const callback = sinon.fake();
-
-    github.fetchUserHomepage('mail@maxantoni.de', callback);
+  it('yields error on timeout', async () => {
+    const promise = github.fetchUserHomepage('mail@maxantoni.de');
     clock.tick(5000);
 
     assert.calledOnce(request.abort);
-    assert.calledOnce(callback);
-    assert.calledWithMatch(callback, {
-      code: 'E_TIMEOUT'
-    });
+    await assert.rejects(
+      promise,
+      match({
+        code: 'E_TIMEOUT'
+      })
+    );
   });
 
   function respond(json) {
@@ -57,34 +54,26 @@ describe('github', () => {
     response.emit('end');
   }
 
-  it('yields (null, null) if no results', () => {
-    const callback = sinon.fake();
-
-    github.fetchUserHomepage('mail@maxantoni.de', callback);
+  it('resolves to null if no results', async () => {
+    const promise = github.fetchUserHomepage('mail@maxantoni.de');
     respond({ items: [] });
 
-    assert.calledOnce(callback);
-    assert.calledWithMatch(callback, null, null);
+    await assert.resolves(promise, null);
   });
 
-  it('yields (null, null) if more than one result', () => {
-    const callback = sinon.fake();
-
-    github.fetchUserHomepage('mail@maxantoni.de', callback);
+  it('resolves to null if more than one result', async () => {
+    const promise = github.fetchUserHomepage('mail@maxantoni.de');
     respond({ items: [{}, {}] });
 
-    assert.calledOnce(callback);
-    assert.calledWithMatch(callback, null, null);
+    await assert.resolves(promise, null);
   });
 
-  it('yields (null, homepage) if exactly one result', () => {
+  it('resolves to homepage if exactly one result', async () => {
     const html_url = 'https://github.com/mantoni';
-    const callback = sinon.fake();
 
-    github.fetchUserHomepage('mail@maxantoni.de', callback);
+    const promise = github.fetchUserHomepage('mail@maxantoni.de');
     respond({ items: [{ html_url }] });
 
-    assert.calledOnce(callback);
-    assert.calledWithMatch(callback, null, html_url);
+    await assert.resolves(promise, html_url);
   });
 });
