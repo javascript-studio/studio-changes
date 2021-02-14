@@ -1,5 +1,42 @@
 # Changes
 
+## 2.1.0
+
+- 🍏 [`0c1ef18`](https://github.com/javascript-studio/studio-changes/commit/0c1ef1832f139fd8655468811c36bb53245463db)
+  Read user name and email from git config
+- 🐛 [`3c73ea7`](https://github.com/javascript-studio/studio-changes/commit/3c73ea7c24deb5aef3e904f40e538b3518efb69f)
+  Fix reading git config
+- 🛡 [`c95c939`](https://github.com/javascript-studio/studio-changes/commit/c95c939350902a0388b3049622f63fd25b872b57)
+  Bump lodash from 4.17.15 to 4.17.19 (dependabot[bot])
+- 🛡 [`1c3987e`](https://github.com/javascript-studio/studio-changes/commit/1c3987eaa603765bf46edd21282989cdf5a6ea70)
+  Bump minimist from 1.2.2 to 1.2.3 (dependabot[bot])
+- 📚 [`46d2338`](https://github.com/javascript-studio/studio-changes/commit/46d2338fef9e971932a904347e6defa9749268bd)
+  Remove dependabot details from changelog
+- 📚 [`908b88f`](https://github.com/javascript-studio/studio-changes/commit/908b88fd5b32c16524911f372d896cb09bb5b204)
+  Improve README
+- 📚 [`e1e7800`](https://github.com/javascript-studio/studio-changes/commit/e1e78001888ef682aa931f0fec417c98857e376d)
+  Switch build status badge to GitHub action
+- ✨ [`3d20343`](https://github.com/javascript-studio/studio-changes/commit/3d20343fa4fb4583113e40b022ab8daa6711a970)
+  Move footer generation to own file
+- ✨ [`0eed36c`](https://github.com/javascript-studio/studio-changes/commit/0eed36c7d2bd414bce3c827188afa198ca90c0f8)
+  Use async / await
+- ✨ [`b37478d`](https://github.com/javascript-studio/studio-changes/commit/b37478d728ec9376c515f5584d021a56f5517b5c)
+  Use husky 4
+- ✨ [`8af53c9`](https://github.com/javascript-studio/studio-changes/commit/8af53c96376fd840f57a772f2f8a463f1fdc159a)
+  Run prettier check in lint script
+- ✨ [`0aa741f`](https://github.com/javascript-studio/studio-changes/commit/0aa741f6d3e62a2ae5d9de37d9076df94b0e2ba2)
+  Replace travis with github actions
+- ✨ [`ebcd050`](https://github.com/javascript-studio/studio-changes/commit/ebcd050e56bf5d21f497c29dc8509be605721b2d)
+  Setup husky and lint-staged
+- ✨ [`623dfa0`](https://github.com/javascript-studio/studio-changes/commit/623dfa0575ea751fd5367f3783e3b4b99bdc87f2)
+  Use prettier
+- ✨ [`93b16c0`](https://github.com/javascript-studio/studio-changes/commit/93b16c02bbbe4eb947406637a43253c5fe2d87e4)
+  Upgrade eslint-config to latest
+- ✨ [`ec6a0f2`](https://github.com/javascript-studio/studio-changes/commit/ec6a0f2da9af4cde4b85b36c63fba6e2b5e2af11)
+  Upgrades (#36)
+
+_Released by [Maximilian Antoni](https://github.com/mantoni) on 2021-02-14._
+
 ## 2.0.1
 
 - 🛡 [`ce7b0a7`](https://github.com/javascript-studio/studio-changes/commit/ce7b0a7296544b48e1929e5fb24bd7cd29322612)
