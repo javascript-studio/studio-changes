@@ -3,7 +3,7 @@
 const fs = require('fs');
 const $ = require('child_process');
 const { assert, refute, sinon } = require('@sinonjs/referee-sinon');
-const github = require('../lib/github');
+const footer = require('../lib/footer');
 const changes = require('..');
 
 describe('changes', () => {
@@ -17,8 +17,6 @@ describe('changes', () => {
 
   afterEach(() => {
     sinon.restore();
-    delete process.env.GIT_AUTHOR_NAME;
-    delete process.env.GIT_AUTHOR_EMAIL;
   });
 
   function packageJson(json) {
@@ -516,11 +514,8 @@ describe('changes', () => {
     );
   });
 
-  function today() {
-    return new Date().toISOString().split('T')[0];
-  }
-
-  it('generates footer without author', async () => {
+  it('generates footer', async () => {
+    sinon.replace(footer, 'generate', sinon.fake.resolves('**The footer**'));
     packageJson();
     missingChanges();
     setLog('» Inception (Studio)\n\n\n');
@@ -530,62 +525,7 @@ describe('changes', () => {
     assert.calledOnceWith(
       fs.writeFileSync,
       'CHANGES.md',
-      `# Changes\n\n## 1.0.0\n\n- Inception\n\n_Released on ${today()}._\n`
+      `# Changes\n\n## 1.0.0\n\n- Inception\n\n**The footer**\n`
     );
-  });
-
-  it('generates footer with author author without link', async () => {
-    process.env.GIT_AUTHOR_NAME = 'Maximilian Antoni';
-    packageJson();
-    missingChanges();
-    setLog('» Inception (Studio)\n\n\n');
-
-    await changes.write({ footer: true });
-
-    assert.calledOnceWith(
-      fs.writeFileSync,
-      'CHANGES.md',
-      '# Changes\n\n## 1.0.0\n\n- Inception\n\n' +
-        `_Released by Maximilian Antoni on ${today()}._\n`
-    );
-  });
-
-  it('generates footer with author author with github homepage link', async () => {
-    sinon.replace(
-      github,
-      'fetchUserHomepage',
-      sinon.fake.resolves('https://github.com/mantoni')
-    );
-    process.env.GIT_AUTHOR_NAME = 'Maximilian Antoni';
-    process.env.GIT_AUTHOR_EMAIL = 'mail@maxantoni.de';
-    packageJson();
-    missingChanges();
-    setLog('» Inception (Studio)\n\n\n');
-
-    await changes.write({ footer: true });
-
-    assert.calledOnceWith(github.fetchUserHomepage, 'mail@maxantoni.de');
-    assert.calledOnceWith(
-      fs.writeFileSync,
-      'CHANGES.md',
-      '# Changes\n\n## 1.0.0\n\n- Inception\n\n' +
-        '_Released by [Maximilian Antoni](https://github.com/mantoni) ' +
-        `on ${today()}._\n`
-    );
-  });
-
-  it('fails if github homepage link can not be retrieved', async () => {
-    const error = new Error('Oh noes!');
-    sinon.replace(github, 'fetchUserHomepage', sinon.fake.rejects(error));
-    process.env.GIT_AUTHOR_NAME = 'Maximilian Antoni';
-    process.env.GIT_AUTHOR_EMAIL = 'mail@maxantoni.de';
-    packageJson();
-    missingChanges();
-    setLog('» Inception (Studio)\n\n\n');
-
-    const promise = changes.write({ footer: true });
-
-    await assert.rejects(promise, error);
-    refute.called(fs.writeFileSync);
   });
 });
