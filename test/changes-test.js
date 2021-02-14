@@ -1,4 +1,3 @@
-/*eslint-env mocha*/
 'use strict';
 
 const fs = require('fs');
@@ -47,16 +46,12 @@ describe('changes', () => {
     $.execSync.returns(log);
   }
 
-  it('generates new changes file to default location', () => {
+  it('generates new changes file to default location', async () => {
     packageJson();
     missingChanges();
     setLog('» Inception (That Dude)\n\n\n');
-    let state;
 
-    changes.write((err, res) => {
-      assert.isNull(err);
-      state = res;
-    });
+    const state = await changes.write();
 
     assert.calledOnceWith(
       fs.writeFileSync,
@@ -68,16 +63,12 @@ describe('changes', () => {
     assert.equals(state.changes_file, 'CHANGES.md');
   });
 
-  it('generates new changes file to custom location', () => {
+  it('generates new changes file to custom location', async () => {
     packageJson();
     missingChanges();
     setLog('» Inception (That Dude)\n\n\n');
-    let state;
 
-    changes.write({ changes_file: 'foo.txt' }, (err, res) => {
-      assert.isNull(err);
-      state = res;
-    });
+    const state = await changes.write({ changes_file: 'foo.txt' });
 
     assert.calledOnceWith(
       fs.writeFileSync,
@@ -87,12 +78,12 @@ describe('changes', () => {
     assert.equals(state.changes_file, 'foo.txt');
   });
 
-  it('removes package author', () => {
+  it('removes package author', async () => {
     packageJson();
     missingChanges();
     setLog('» Inception (Studio)\n\n\n');
 
-    changes.write();
+    await changes.write();
 
     assert.calledOnceWith(
       fs.writeFileSync,
@@ -101,12 +92,12 @@ describe('changes', () => {
     );
   });
 
-  function verifyAuthorRemoval(author) {
+  async function verifyAuthorRemoval(author) {
     packageJson({ name: '@studio/changes', version: '1.0.0', author });
     missingChanges();
     setLog('» Inception (Studio)\n\n\n');
 
-    changes.write();
+    await changes.write();
 
     assert.calledOnceWith(
       fs.writeFileSync,
@@ -115,44 +106,40 @@ describe('changes', () => {
     );
   }
 
-  it('removes package author (with homepage)', () => {
-    verifyAuthorRemoval('Studio (https://javascript.studio)');
+  it('removes package author (with homepage)', async () => {
+    await verifyAuthorRemoval('Studio (https://javascript.studio)');
   });
 
-  it('removes package author (without email or homepage)', () => {
-    verifyAuthorRemoval('Studio');
+  it('removes package author (without email or homepage)', async () => {
+    await verifyAuthorRemoval('Studio');
   });
 
-  it('removes package author (with email and homepage)', () => {
-    verifyAuthorRemoval(
+  it('removes package author (with email and homepage)', async () => {
+    await verifyAuthorRemoval(
       'Studio <support@javascript.studio> (https://javascript.studio)'
     );
   });
 
-  it('removes package author (with homepage and email)', () => {
-    verifyAuthorRemoval(
+  it('removes package author (with homepage and email)', async () => {
+    await verifyAuthorRemoval(
       'Studio (https://javascript.studio) <support@javascript.studio>'
     );
   });
 
-  it('removes package author (with object)', () => {
-    verifyAuthorRemoval({
+  it('removes package author (with object)', async () => {
+    await verifyAuthorRemoval({
       name: 'Studio',
       email: 'support@javascript.studio'
     });
   });
 
-  it('add commit log to existing changes file', () => {
+  it('add commit log to existing changes file', async () => {
     packageJson();
     const initial = '# Changes\n\n## 0.1.0\n\nSome foo.\n';
     setChanges(initial);
     setLog('» Inception (Studio)\n\n\n');
-    let state;
 
-    changes.write((err, res) => {
-      assert.isNull(err);
-      state = res;
-    });
+    const state = await changes.write();
 
     assert.calledOnceWith(
       fs.writeFileSync,
@@ -164,17 +151,17 @@ describe('changes', () => {
     assert.equals(state.previous, initial);
   });
 
-  it('identifies previous commit with -beta suffix', () => {
+  it('identifies previous commit with -beta suffix', async () => {
     packageJson();
     setChanges('# Changes\n\n## 0.1.0-beta\n\nSome foo.\n');
     setLog('» Inception (Studio)\n\n\n');
 
-    changes.write();
+    await changes.write();
 
     assert.calledWithMatch($.execSync, 'git log v0.1.0-beta..HEAD');
   });
 
-  it('adds body indented on new line', () => {
+  it('adds body indented on new line', async () => {
     packageJson();
     missingChanges();
     setLog(
@@ -182,7 +169,7 @@ describe('changes', () => {
         '» Third (Person)\n\nDoes\nstuff\n\n'
     );
 
-    changes.write();
+    await changes.write();
 
     assert.calledOnceWith(
       fs.writeFileSync,
@@ -194,12 +181,12 @@ describe('changes', () => {
     );
   });
 
-  it('keeps body with two paragraphs together', () => {
+  it('keeps body with two paragraphs together', async () => {
     packageJson();
     missingChanges();
     setLog('» Inception (Studio)\n\nFoo\n\nBar\n\n');
 
-    changes.write();
+    await changes.write();
 
     assert.calledOnceWith(
       fs.writeFileSync,
@@ -209,12 +196,12 @@ describe('changes', () => {
     );
   });
 
-  it('keeps body with three paragraphs together', () => {
+  it('keeps body with three paragraphs together', async () => {
     packageJson();
     missingChanges();
     setLog('» Inception (Studio)\n\nFoo\n\nBar\n\nDoo\n\n');
 
-    changes.write();
+    await changes.write();
 
     assert.calledOnceWith(
       fs.writeFileSync,
@@ -224,12 +211,12 @@ describe('changes', () => {
     );
   });
 
-  it('properly indents lists', () => {
+  it('properly indents lists', async () => {
     packageJson();
     missingChanges();
     setLog('» Inception (Studio)\n\n- Foo\n- Bar\n- Doo\n\n');
 
-    changes.write();
+    await changes.write();
 
     assert.calledOnceWith(
       fs.writeFileSync,
@@ -239,12 +226,12 @@ describe('changes', () => {
     );
   });
 
-  it('properly indents list with multiline entry', () => {
+  it('properly indents list with multiline entry', async () => {
     packageJson();
     missingChanges();
     setLog('» Inception (Studio)\n\n- Foo\n  next line\n- Bar\n\n');
 
-    changes.write();
+    await changes.write();
 
     assert.calledOnceWith(
       fs.writeFileSync,
@@ -254,22 +241,22 @@ describe('changes', () => {
     );
   });
 
-  it('fails if changes file has not the right format', () => {
+  it('fails if changes file has not the right format', async () => {
     packageJson();
     setChanges('# Something else\n\n## 1.0.0\n\nFoo');
 
-    changes.write();
+    await changes.write();
 
     assert.calledOnceWith(console.error, 'Unexpected CHANGES.md file header');
     assert.calledOnceWith(process.exit, 1);
   });
 
-  it('fails if version is already in changes file', () => {
+  it('fails if version is already in changes file', async () => {
     packageJson();
     setChanges('# Changes\n\n## 1.0.0\n\nFoo');
     setLog('foo');
 
-    changes.write();
+    await changes.write();
 
     assert.calledWith(
       console.error,
@@ -278,23 +265,23 @@ describe('changes', () => {
     assert.calledOnceWith(process.exit, 1);
   });
 
-  it('shows outstanding changes if version is already in changes file', () => {
+  it('shows outstanding changes if version is already in changes file', async () => {
     packageJson();
     setChanges('# Changes\n\n## 1.0.0\n\nFoo');
     setLog('» Up next (Studio)\n\n\n');
 
-    changes.write();
+    await changes.write();
 
     assert.calledWith(console.error, '# Changes for next release:\n');
     assert.calledWith(console.error, '- Up next\n');
   });
 
-  it('does not show outstanding changes if no new commits where found', () => {
+  it('does not show outstanding changes if no new commits where found', async () => {
     packageJson();
     setChanges('# Changes\n\n## 1.0.0\n\nFoo');
     setLog('');
 
-    changes.write();
+    await changes.write();
 
     assert.calledWith(
       console.error,
@@ -303,17 +290,13 @@ describe('changes', () => {
     refute.calledWith(console.error, '# Changes for next release:\n');
   });
 
-  it('works if changes file was checked out with CRLF', () => {
+  it('works if changes file was checked out with CRLF', async () => {
     packageJson();
     const initial = '# Changes\r\n\r\n## 0.0.1\r\n\r\n- Inception\r\n';
     setChanges(initial);
     setLog('» JavaScript (Studio)\n\nWhat else?\n\n\n');
-    let state;
 
-    changes.write((err, res) => {
-      assert.isNull(err);
-      state = res;
-    });
+    const state = await changes.write();
 
     assert.calledOnceWith(
       fs.writeFileSync,
@@ -327,12 +310,12 @@ describe('changes', () => {
     assert.equals(state.previous, initial);
   });
 
-  it('fails if version is already in changes file with CRLF', () => {
+  it('fails if version is already in changes file with CRLF', async () => {
     packageJson();
     setChanges('# Changes\r\n\r\n## 1.0.0\r\n\r\nFoo');
     setLog('foo');
 
-    changes.write();
+    await changes.write();
 
     assert.calledWith(
       console.error,
@@ -341,22 +324,15 @@ describe('changes', () => {
     assert.calledOnceWith(process.exit, 1);
   });
 
-  it('should support custom tag formats when updating a file', () => {
+  it('should support custom tag formats when updating a file', async () => {
     packageJson();
     const initial = '# Changes\n\n## 0.1.0\n\nSome foo.\n';
     setChanges(initial);
     setLog('» Inception (Studio)\n\n\n');
-    let state;
 
-    changes.write(
-      {
-        tag_format: '${name}@${version}'
-      },
-      (err, res) => {
-        assert.isNull(err);
-        state = res;
-      }
-    );
+    const state = await changes.write({
+      tag_format: '${name}@${version}'
+    });
 
     assert.calledOnceWith(
       fs.writeFileSync,
@@ -368,7 +344,7 @@ describe('changes', () => {
     assert.equals(state.previous, initial);
   });
 
-  it('adds commits with specified base', () => {
+  it('adds commits with specified base', async () => {
     packageJson();
     missingChanges();
     setLog(
@@ -376,7 +352,7 @@ describe('changes', () => {
         'cbac1d01d3e7c5d9ab1cf7cd9efee4cfc2988a85)«  Message (Author)\n\n\n'
     );
 
-    changes.write({
+    await changes.write({
       commits: 'https://javascript.studio/commit'
     });
 
@@ -394,7 +370,7 @@ describe('changes', () => {
     );
   });
 
-  it('adds commits with base from package.json homepage + /commit', () => {
+  it('adds commits with base from package.json homepage + /commit', async () => {
     packageJson();
     missingChanges();
     setLog(
@@ -403,7 +379,7 @@ describe('changes', () => {
         '  Message (Author)\n\n\n'
     );
 
-    changes.write({
+    await changes.write({
       commits: true
     });
 
@@ -422,7 +398,7 @@ describe('changes', () => {
     );
   });
 
-  it('resolves base from package.json "repository" field', () => {
+  it('resolves base from package.json "repository" field', async () => {
     packageJson({
       name: '@studio/changes',
       version: '1.0.0',
@@ -434,7 +410,7 @@ describe('changes', () => {
     missingChanges();
     setLog('» Test');
 
-    changes.write({
+    await changes.write({
       commits: true
     });
 
@@ -446,7 +422,7 @@ describe('changes', () => {
   });
 
   it(`ignores package.json "repository" field and uses "homepage" instead if not
-      type "git"`, () => {
+      type "git"`, async () => {
     packageJson({
       name: '@studio/changes',
       version: '1.0.0',
@@ -459,7 +435,7 @@ describe('changes', () => {
     missingChanges();
     setLog('» Test');
 
-    changes.write({
+    await changes.write({
       commits: true
     });
 
@@ -470,7 +446,7 @@ describe('changes', () => {
     );
   });
 
-  it('fails if repository info cannot be parsed', () => {
+  it('fails if repository info cannot be parsed', async () => {
     packageJson({
       name: '@studio/changes',
       version: '1.0.0',
@@ -482,7 +458,7 @@ describe('changes', () => {
     missingChanges();
     setLog('» Test');
 
-    changes.write({
+    await changes.write({
       commits: true
     });
 
@@ -494,13 +470,13 @@ describe('changes', () => {
   });
 
   it(`fails if --commits but missing "repository" and "homepage" in
-      package.json`, () => {
+      package.json`, async () => {
     packageJson({
       name: '@studio/changes',
       version: '1.0.0'
     });
 
-    changes.write({
+    await changes.write({
       commits: true
     });
 
@@ -512,7 +488,7 @@ describe('changes', () => {
     assert.calledOnceWith(process.exit, 1);
   });
 
-  it('adds commits using base URL template', () => {
+  it('adds commits using base URL template', async () => {
     packageJson();
     missingChanges();
     setLog(
@@ -521,7 +497,7 @@ describe('changes', () => {
         '  Message (Author)\n\n\n'
     );
 
-    changes.write({
+    await changes.write({
       commits: '${homepage}/foo'
     });
 
@@ -544,12 +520,12 @@ describe('changes', () => {
     return new Date().toISOString().split('T')[0];
   }
 
-  it('generates footer without author', () => {
+  it('generates footer without author', async () => {
     packageJson();
     missingChanges();
     setLog('» Inception (Studio)\n\n\n');
 
-    changes.write({ footer: true });
+    await changes.write({ footer: true });
 
     assert.calledOnceWith(
       fs.writeFileSync,
@@ -558,13 +534,13 @@ describe('changes', () => {
     );
   });
 
-  it('generates footer with author author without link', () => {
+  it('generates footer with author author without link', async () => {
     process.env.GIT_AUTHOR_NAME = 'Maximilian Antoni';
     packageJson();
     missingChanges();
     setLog('» Inception (Studio)\n\n\n');
 
-    changes.write({ footer: true });
+    await changes.write({ footer: true });
 
     assert.calledOnceWith(
       fs.writeFileSync,
@@ -574,11 +550,11 @@ describe('changes', () => {
     );
   });
 
-  it('generates footer with author author with github homepage link', () => {
+  it('generates footer with author author with github homepage link', async () => {
     sinon.replace(
       github,
       'fetchUserHomepage',
-      sinon.fake.yields(null, 'https://github.com/mantoni')
+      sinon.fake.resolves('https://github.com/mantoni')
     );
     process.env.GIT_AUTHOR_NAME = 'Maximilian Antoni';
     process.env.GIT_AUTHOR_EMAIL = 'mail@maxantoni.de';
@@ -586,7 +562,7 @@ describe('changes', () => {
     missingChanges();
     setLog('» Inception (Studio)\n\n\n');
 
-    changes.write({ footer: true });
+    await changes.write({ footer: true });
 
     assert.calledOnceWith(github.fetchUserHomepage, 'mail@maxantoni.de');
     assert.calledOnceWith(
@@ -598,25 +574,18 @@ describe('changes', () => {
     );
   });
 
-  it('fails if github homepage link can not be retrieved', () => {
-    sinon.replace(
-      github,
-      'fetchUserHomepage',
-      sinon.fake.yields(new Error('Oh noes!'))
-    );
+  it('fails if github homepage link can not be retrieved', async () => {
+    const error = new Error('Oh noes!');
+    sinon.replace(github, 'fetchUserHomepage', sinon.fake.rejects(error));
     process.env.GIT_AUTHOR_NAME = 'Maximilian Antoni';
     process.env.GIT_AUTHOR_EMAIL = 'mail@maxantoni.de';
     packageJson();
     missingChanges();
     setLog('» Inception (Studio)\n\n\n');
 
-    changes.write({ footer: true });
+    const promise = changes.write({ footer: true });
 
-    assert.calledWith(
-      console.error,
-      'Failed to fetch GitHub homepage for mail@maxantoni.de: Error: Oh noes!'
-    );
-    assert.calledOnceWith(process.exit, 1);
+    await assert.rejects(promise, error);
     refute.called(fs.writeFileSync);
   });
 });
