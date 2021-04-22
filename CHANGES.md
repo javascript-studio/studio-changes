@@ -1,5 +1,18 @@
 # Changes
 
+## 2.2.0
+
+- 🍏 [`bb47350`](https://github.com/javascript-studio/studio-changes/commit/bb4735035879f2d3084684e9efef20bce43af9e9)
+  Publish to npm with public access when package is scoped and public (Frederik Ring)
+- ✨ [`4483f04`](https://github.com/javascript-studio/studio-changes/commit/4483f045088f7e4479eade163505c65d233ca62b)
+  Dedupe and update dependencies
+- ✨ [`d629420`](https://github.com/javascript-studio/studio-changes/commit/d6294208c07d67fe31595f31d344a609781e3410)
+  Use npm 7
+- ✨ [`0e7d6b2`](https://github.com/javascript-studio/studio-changes/commit/0e7d6b2c61c1aa195161197ff0c7c942aa2cdd11)
+  Update dev tools
+
+_Released by [Maximilian Antoni](https://github.com/mantoni) on 2021-04-22._
+
 ## 2.1.0
 
 - 🍏 [`0c1ef18`](https://github.com/javascript-studio/studio-changes/commit/0c1ef1832f139fd8655468811c36bb53245463db)
