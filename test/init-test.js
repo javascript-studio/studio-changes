@@ -299,4 +299,53 @@ describe('init', () => {
 `
     );
   });
+
+  it('automatically passes `--access public` to scoped public packages', () => {
+    fs.readFileSync
+      .withArgs('package.json')
+      .returns('{"name":"@studio/changes","private":false}');
+
+    const result = init();
+
+    assert.isTrue(result);
+    assert.calledOnceWith(
+      fs.writeFileSync,
+      'package.json',
+      `{
+  "name": "@studio/changes",
+  "private": false,
+  "scripts": {
+    "preversion": "${SCRIPT_PREVERSION}",
+    "version": "${SCRIPT_VERSION}",
+    "postversion": "${SCRIPT_POSTVERSION} --access public"
+  }
+}
+`,
+      'utf8'
+    );
+  });
+
+  it('does not pass `--access` to packages implicitly restricted by a scoped name', () => {
+    fs.readFileSync
+      .withArgs('package.json')
+      .returns('{"name":"@acme-corp/ledger-tool"}');
+
+    const result = init();
+
+    assert.isTrue(result);
+    assert.calledOnceWith(
+      fs.writeFileSync,
+      'package.json',
+      `{
+  "name": "@acme-corp/ledger-tool",
+  "scripts": {
+    "preversion": "${SCRIPT_PREVERSION}",
+    "version": "${SCRIPT_VERSION}",
+    "postversion": "${SCRIPT_POSTVERSION}"
+  }
+}
+`,
+      'utf8'
+    );
+  });
 });
