@@ -11,8 +11,8 @@
   <a href="https://semver.org">
     <img src="https://img.shields.io/:semver-%E2%9C%93-blue.svg" alt="SemVer">
   </a>
-  <a href="https://github.com/mantoni/eslint_d.js/actions">
-    <img src="https://github.com/mantoni/eslint_d.js/workflows/Build/badge.svg" alt="Build Status">
+  <a href="https://github.com/javascript-studio/studio-changes/actions">
+    <img src="https://github.com/javascript-studio/studio-changes/workflows/Build/badge.svg" alt="Build Status">
   </a>
   <a href="https://opensource.org/licenses/MIT">
     <img src="https://img.shields.io/badge/License-MIT-brightgreen.svg" alt="License">
