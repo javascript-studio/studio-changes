@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const $ = require('child_process');
-const { assert, refute, sinon } = require('@sinonjs/referee-sinon');
+const { assert, refute, match, sinon } = require('@sinonjs/referee-sinon');
 const footer = require('../lib/footer');
 const changes = require('..');
 
@@ -157,6 +157,16 @@ describe('changes', () => {
     await changes.write();
 
     assert.calledWithMatch($.execSync, 'git log v0.1.0-beta..HEAD');
+  });
+
+  it('adds `-- my-module` to git log command', async () => {
+    packageJson();
+    missingChanges();
+    setLog('» Inception\n\n\n');
+
+    await changes.write({ dir: 'my-module' });
+
+    assert.calledWith($.execSync, match(/ -- my-module$/));
   });
 
   it('adds body indented on new line', async () => {
