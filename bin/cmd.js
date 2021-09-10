@@ -14,6 +14,7 @@ const argv = require('minimist')(process.argv.slice(2), {
     commits: 'c',
     file: 'f',
     tag: 't',
+    dir: 'd',
     help: 'h'
   }
 });
@@ -29,6 +30,7 @@ Options:
       --footer          Generate a footer with the git author and release date.
   -f, --file [FILENAME] Specify the name of the changelog file. Defaults to CHANGES.md.
   -t, --tag [FORMAT]    Specify a custom git tag format to use. Defaults to "v\${version}".
+  -d, --dir [PATH]      Specify a directory to to filter git log entries.
   -h, --help            Display this help message.
 `);
   /* eslint-enable */
@@ -50,6 +52,9 @@ if (argv.file) {
 }
 if (argv.tag) {
   options.tag_format = argv.tag;
+}
+if (argv.dir) {
+  options.dir = argv.dir;
 }
 if (argv.commits) {
   options.commits = argv.commits;
