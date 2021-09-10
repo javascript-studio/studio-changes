@@ -1,6 +1,7 @@
 'use strict';
 
 const fs = require('fs');
+const path = require('path');
 const $ = require('child_process');
 const { assert, refute, match, sinon } = require('@sinonjs/referee-sinon');
 const footer = require('../lib/footer');
@@ -332,7 +333,7 @@ describe('changes', () => {
     assert.calledOnceWith(process.exit, 1);
   });
 
-  it('should support custom tag formats when updating a file', async () => {
+  it('supports custom tag formats when updating a file', async () => {
     packageJson();
     const initial = '# Changes\n\n## 0.1.0\n\nSome foo.\n';
     setChanges(initial);
@@ -349,6 +350,28 @@ describe('changes', () => {
     );
     assert.calledOnce($.execSync);
     assert.calledWithMatch($.execSync, 'git log @studio/changes@0.1.0..HEAD');
+    assert.equals(state.previous, initial);
+  });
+
+  it('uses current directory as the workspace convention', async () => {
+    packageJson();
+    const initial = '# Changes\n\n## 0.1.0\n\nSome foo.\n';
+    setChanges(initial);
+    setLog('» Inception (Studio)\n\n\n');
+
+    const state = await changes.write({
+      workspace: true
+    });
+
+    assert.calledOnceWith(
+      fs.writeFileSync,
+      'CHANGES.md',
+      '# Changes\n\n## 1.0.0\n\n- Inception\n\n## 0.1.0\n\nSome foo.\n'
+    );
+    assert.calledOnce($.execSync);
+    const current_dir = path.basename(process.cwd());
+    assert.calledWithMatch($.execSync, `git log ${current_dir}/v0.1.0..HEAD`);
+    assert.calledWithMatch($.execSync, new RegExp(`-- ${current_dir}$`));
     assert.equals(state.previous, initial);
   });
 
