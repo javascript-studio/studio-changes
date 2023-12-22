@@ -52,6 +52,7 @@
   "devDependencies": {
     "@sinonjs/referee-sinon": "^11.0.0",
     "@studio/eslint-config": "^6.0.0",
+    "@studio/related-tests": "^0.2.0",
     "eslint": "^8.56.0",
     "husky": "^8.0.3",
     "lint-staged": "^15.2.0",
@@ -69,9 +70,5 @@
     "!test/**",
     "!.*"
   ],
-  "license": "MIT",
-  "lint-staged": {
-    "*.js": "eslint --fix",
-    "*": "prettier --write"
-  }
+  "license": "MIT"
 }
