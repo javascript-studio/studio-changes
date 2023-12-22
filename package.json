@@ -43,7 +43,7 @@
     "minimist": "^1.2.5"
   },
   "devDependencies": {
-    "@sinonjs/referee-sinon": "^8.0.1",
+    "@sinonjs/referee-sinon": "^11.0.0",
     "@studio/eslint-config": "^2.0.0",
     "eslint": "^7.22.0",
     "eslint-plugin-mocha": "^8.1.0",
