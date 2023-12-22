@@ -33,9 +33,9 @@
   "eslintConfig": {
     "extends": "@studio",
     "rules": {
-      "node/no-sync": 0,
-      "no-template-curly-in-string": 0,
-      "no-unreachable": 0
+      "n/no-sync": 0,
+      "n/no-process-exit": 0,
+      "no-template-curly-in-string": 0
     }
   },
   "dependencies": {
@@ -47,10 +47,8 @@
   },
   "devDependencies": {
     "@sinonjs/referee-sinon": "^11.0.0",
-    "@studio/eslint-config": "^2.0.0",
-    "eslint": "^7.22.0",
-    "eslint-plugin-mocha": "^8.1.0",
-    "eslint-plugin-node": "^11.1.0",
+    "@studio/eslint-config": "^6.0.0",
+    "eslint": "^8.56.0",
     "husky": "^8.0.3",
     "lint-staged": "^15.2.0",
     "mocha": "^10.2.0",

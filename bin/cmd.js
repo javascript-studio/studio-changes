@@ -21,7 +21,6 @@ const argv = require('minimist')(process.argv.slice(2), {
 });
 
 if (argv.help) {
-  /* eslint-disable max-len */
   console.log(`Usage: changes [options]
 
 Options:
@@ -35,12 +34,11 @@ Options:
   -w, --workspace       Convenience flag to set --dir to the current directory name and --tag to "\${dir} v\${version}"
   -h, --help            Display this help message.
 `);
-  /* eslint-enable */
   process.exit();
 }
 
 if (argv.init) {
-  // eslint-disable-next-line node/global-require
+  // eslint-disable-next-line n/global-require
   if (require('../lib/init')()) {
     process.exit();
   }
