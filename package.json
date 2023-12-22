@@ -41,7 +41,7 @@
   "dependencies": {
     "@studio/editor": "^1.1.1",
     "@studio/json-request": "^3.0.0",
-    "detect-indent": "^6.0.0",
+    "detect-indent": "^6.1.0",
     "hosted-git-info": "^3.0.8",
     "minimist": "^1.2.5"
   },
