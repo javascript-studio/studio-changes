@@ -7,11 +7,10 @@
   },
   "main": "lib/changes.js",
   "scripts": {
-    "lint": "eslint . && prettier --check .",
-    "test": "mocha",
-    "watch": "mocha --watch",
-    "posttest": "npm run lint",
-    "preversion": "npm test",
+    "lint": "eslint .",
+    "test": "mocha '**/*.test.js'",
+    "watch": "npm test -- --watch",
+    "preversion": "npm run lint && npm run prettier:check && npm test",
     "version": "bin/cmd.js -c --footer",
     "postversion": "git push --follow-tags && npm publish",
     "prettier:check": "prettier --check '**/*.{js,json,md}'",
@@ -38,6 +37,11 @@
       "no-template-curly-in-string": 0
     }
   },
+  "mocha": {
+    "require": "test/hooks.js",
+    "ignore": "node_modules/**",
+    "reporter": "dot"
+  },
   "dependencies": {
     "@studio/editor": "^1.1.1",
     "@studio/json-request": "^3.0.1",
@@ -59,10 +63,11 @@
     "url": "https://github.com/javascript-studio/studio-changes.git"
   },
   "files": [
-    "bin",
-    "lib",
-    "LICENSE",
-    "README.md"
+    "CHANGES.md",
+    "**/*.js",
+    "!**/*.test.js",
+    "!test/**",
+    "!.*"
   ],
   "license": "MIT",
   "lint-staged": {
