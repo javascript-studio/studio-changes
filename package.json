@@ -43,7 +43,7 @@
     "@studio/json-request": "^3.0.0",
     "detect-indent": "^6.1.0",
     "hosted-git-info": "^3.0.8",
-    "minimist": "^1.2.5"
+    "minimist": "^1.2.8"
   },
   "devDependencies": {
     "@sinonjs/referee-sinon": "^11.0.0",
