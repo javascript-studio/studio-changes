@@ -1,5 +1,50 @@
 # Changes
 
+## 3.0.0
+
+- 💥 [`c496adf`](https://github.com/javascript-studio/studio-changes/commit/c496adf4ea0fae76a852209e2931d2e7b444fae9)
+  Drop node 12 and 14, support node 18 and 20
+- 🍏 [`1a13f3c`](https://github.com/javascript-studio/studio-changes/commit/1a13f3c063cb7f3faa12ace933c357b5190e4b18)
+  Add support for `--workspace` flag
+- 🍏 [`5fdce3b`](https://github.com/javascript-studio/studio-changes/commit/5fdce3b4a73dc13362f497b46767558ea43542a6)
+  Add support for `--dir` to filter git logs
+- ✨ [`777616b`](https://github.com/javascript-studio/studio-changes/commit/777616be2b889812e74853c86a0217b6c2c57c9d)
+  Setup related tests for lint-staged
+- ✨ [`98e308a`](https://github.com/javascript-studio/studio-changes/commit/98e308aa5d4cb560e5f5cfeafd9509f07e7a6a3c)
+  Move tests next to implementation
+- ✨ [`71130a9`](https://github.com/javascript-studio/studio-changes/commit/71130a948a7f6d4733fae99495b92897d4363dbc)
+  Upgrade eslint-config and eslint
+- ✨ [`aa66b78`](https://github.com/javascript-studio/studio-changes/commit/aa66b7820fd4787b687b9a9670b18f6f0a9b2d35)
+  Update Studio JSON Request
+- ✨ [`133fdd3`](https://github.com/javascript-studio/studio-changes/commit/133fdd31a9b29a544024cb69df933e299014a913)
+  Upgrade hosted-git-info
+- ✨ [`0b70b37`](https://github.com/javascript-studio/studio-changes/commit/0b70b37b6c4a3c4a443000112e201aaeb864352d)
+  Update minimist
+- ✨ [`2e1b252`](https://github.com/javascript-studio/studio-changes/commit/2e1b25293c8998517d5a9f752c7b614db7ae58a5)
+  Update detect-indent
+- ✨ [`8c43dba`](https://github.com/javascript-studio/studio-changes/commit/8c43dba59f8d5204dd6e02b113fa7ee19d5ba6ef)
+  Upgrade husky and lint-staged
+- ✨ [`96061cd`](https://github.com/javascript-studio/studio-changes/commit/96061cd384f87fe42cec5eb037179097b4fe368e)
+  Upgrade prettier to v3 and add scripts
+- ✨ [`05d92b7`](https://github.com/javascript-studio/studio-changes/commit/05d92b70417120d834c64b97ebc0ed3ac5ac519e)
+  Upgrade mocha
+- ✨ [`2bcfcf6`](https://github.com/javascript-studio/studio-changes/commit/2bcfcf653393c7ae5af34fb0f0b79a78e513af41)
+  Upgrade referee-sinon
+- 🛡️ [`45a62ad`](https://github.com/javascript-studio/studio-changes/commit/45a62ad28f2249a2424f54310d7a1827177e44a7)
+  Bump semver-regex from 3.1.3 to 3.1.4 (dependabot[bot])
+- 🛡️ [`d0e261e`](https://github.com/javascript-studio/studio-changes/commit/d0e261e3e2fd2acd51da0b67a88b1ff7b1a34654)
+  Bump semver-regex from 3.1.2 to 3.1.3 (dependabot[bot])
+- 🛡️ [`5770dc9`](https://github.com/javascript-studio/studio-changes/commit/5770dc9e7c4d00bc720ac11de7f5e2705685cfbb)
+  Bump path-parse from 1.0.6 to 1.0.7 (dependabot[bot])
+- 🛡️ [`2ddd579`](https://github.com/javascript-studio/studio-changes/commit/2ddd579242a87a04fa345271e05f5e0b82fb109d)
+  Bump ansi-regex from 3.0.0 to 3.0.1 (dependabot[bot])
+- 🛡️ [`d1f8a3a`](https://github.com/javascript-studio/studio-changes/commit/d1f8a3a98b0bd5389351151e704a29cd1de8eb59)
+  Bump minimist from 1.2.5 to 1.2.6 (dependabot[bot])
+- 📚 [`47f21dd`](https://github.com/javascript-studio/studio-changes/commit/47f21dd8831c05b32f110a9f888160a2a9ec286c)
+  Fix build badge
+
+_Released by [Maximilian Antoni](https://github.com/mantoni) on 2023-12-22._
+
 ## 2.2.0
 
 - 🍏 [`bb47350`](https://github.com/javascript-studio/studio-changes/commit/bb4735035879f2d3084684e9efef20bce43af9e9)
