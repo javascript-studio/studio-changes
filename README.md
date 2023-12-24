@@ -66,6 +66,10 @@ This will add the following to your `package.json`:
   with `--file` and `--commits` to configure the `changes` invocation.
 - `--tag`: Use a custom git tag, supports simple replacement of `package.json`
   fields. Defaults to `v${version}`.
+- `--dir`: Passes the given dir to `git log -- <dir>` to filter the commit
+  history by this directory.
+- `--workspace`: Is a convenience flag which sets `--dir` to the current
+  directory name and `--tag` to `${dir}/v${version}`.
 
 Configure your preferred editor with the `$EDITOR` environment variable.
 
